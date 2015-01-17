@@ -2,17 +2,23 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:AvalonTracker" x:Class="AvalonTracker.MainWindow"
-        Title="MainWindow" Height="900" Width="1600" Loaded="Window_Loaded">
+        Title="MainWindow" Height="900" Width="1600">
     <Window.Resources>
     </Window.Resources>
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        <StackPanel Name="PlayerSelectionStackPanel">
+        <!--Player Selection-->
+        <StackPanel Name="PlayerSelectionStackPanel" Visibility="{Binding PlayerSelectionVisibility}">
             <local:PlayerSelectionView></local:PlayerSelectionView>
             <local:NewPlayerView></local:NewPlayerView>
-            <Button Name="BtnStartMatch" Margin="50,50,50,50" FontSize="50" Content="START MATCH!"/>
+            <Button Name="BtnStartMatch" Command="{Binding StartMatchCommand, Mode=OneWay}" Margin="50,50,50,50" FontSize="50" Content="START MATCH!"/>
+        </StackPanel>
+        
+        <!--Party Selection-->
+        <StackPanel Name="PartySelectionStackPanel" Visibility="{Binding PartySelectionVisibility}">
+            <local:PartySelectorView></local:PartySelectorView>
         </StackPanel>
     </Grid>
 </Window>
