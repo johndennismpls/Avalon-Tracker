@@ -13,12 +13,13 @@
         <StackPanel Name="PlayerSelectionStackPanel" Visibility="{Binding PlayerSelectionVisibility}">
             <local:PlayerSelectionView></local:PlayerSelectionView>
             <local:NewPlayerView></local:NewPlayerView>
-            <Button Name="BtnStartMatch" Command="{Binding StartMatchCommand, Mode=OneWay}" Margin="50,50,50,50" FontSize="50" Content="START MATCH!"/>
+            <Button Name="BtnStartMatch" Command="{Binding StartMatchCommand}" Margin="50,50,50,50" FontSize="50" Content="START MATCH!"/>
         </StackPanel>
         
         <!--Party Selection-->
         <StackPanel Name="PartySelectionStackPanel" Visibility="{Binding PartySelectionVisibility}">
             <local:PartySelectorView></local:PartySelectorView>
+            <Button Name="BtnProposeParty" Command="{Binding}"  Content="Propose Party!"></Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -14,7 +14,7 @@
             <TextBlock FontSize="60" FontStyle="Italic" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,50">Choose Active Players!</TextBlock>
             <StackPanel Orientation="Horizontal" Height="Auto" HorizontalAlignment="Center">
                 <StackPanel Margin="0,0,25,0">
-                    <ListView Name="ListViewAllPlayersNames" ItemsSource="{Binding AllPlayerNames}" Height="300">
+                    <ListView Name="ListViewAllPlayersNames" ItemsSource="{Binding AllPlayers}" Height="300">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="All Players" DisplayMemberBinding="{Binding Name}" Width="250" />
@@ -29,7 +29,7 @@
                     <Button Content="Remove Selected Players" Command="{Binding RemoveSelectedActivePlayers}" CommandParameter="{Binding ElementName=ListViewActivePlayers}" Height="50"/>
                 </StackPanel>
 
-                <ListView Name="ListViewActivePlayers" ItemsSource="{Binding ActivePlayerNames}" Margin="25,0,0,0"> 
+                <ListView Name="ListViewActivePlayers" ItemsSource="{Binding ActivePlayers}" Margin="25,0,0,0"> 
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Active Players" DisplayMemberBinding="{Binding Name}" Width="250"/>

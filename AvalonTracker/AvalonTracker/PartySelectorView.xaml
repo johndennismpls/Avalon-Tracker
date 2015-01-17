@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AvalonTracker" 
              mc:Ignorable="d" 
              Height="900" Width="1600">
+    <UserControl.DataContext>
+        <local:PartySelectorViewModel/>
+    </UserControl.DataContext>
     <StackPanel>
         <TextBlock Name ="TxtBlockChooseParty" HorizontalAlignment="Center" FontSize="30" FontStyle="Italic">Choose Your Party!</TextBlock>
     <Grid VerticalAlignment="Top" HorizontalAlignment="Left" ShowGridLines="True" >
@@ -19,8 +23,8 @@
                 <RowDefinition Height="400"/>
                 <RowDefinition Height="400"/>
             </Grid.RowDefinitions>
-            <Button Name ="BtnSlotOne"  Grid.Column="0" Grid.Row="0"></Button>
-            <Button Name ="BtnSlotTwo"  Grid.Column="1" Grid.Row="0"></Button>
+            <Button Name ="BtnSlotOne"  Grid.Column="0" Grid.Row="0" Command="{Binding SelectSlotCommand}" CommandParameter="{Binding ActivePlayers[0]}" Content="{Binding ActivePlayers[0].Name}" IsEnabled="{Binding ActivePlayers[0]}"></Button>
+            <Button Name ="BtnSlotTwo"  Grid.Column="1" Grid.Row="0" Command="{Binding SelectSlotCommand}" CommandParameter="{Binding ActivePlayers[1]}" Content="{Binding ActivePlayers[1].Name}" IsEnabled="{Binding ActivePlayers[1]}"></Button>
             <Button Name ="BtnSlotThree"  Grid.Column="2" Grid.Row="0"></Button>
             <Button Name ="BtnSlotFour"  Grid.Column="3" Grid.Row="0"></Button>
             <Button Name ="BtnSlotFive"  Grid.Column="4" Grid.Row="0"></Button>

@@ -10,32 +10,35 @@ namespace AvalonTracker
 {
     public class PartySelectorViewModel
     {
-        private PartySelectorViewModel()
+        public ObservableCollection<Player> ActivePlayers { get { return DataService.ActivePlayers; } }
+        public ObservableCollection<Player> ActiveParty { get { return DataService.ActiveParty; } }
+
+        public PartySelectorViewModel()
         {
             InitializeCommands();
         }
 
-        private void PerformSelectSlotCommand(object name)
+        private void PerformSelectSlotCommand(object player)
         {
-            var tempName = name as string;
-            foreach (Player player in ActiveParty)
+            var tempPlayer = player as Player;
+            foreach (Player activePlayer in ActiveParty)
             {
-                if (string.Equals(player.Name, tempName))
+                if (tempPlayer == activePlayer)
                 {
-                    ActiveParty.Remove(player);
+                    ActiveParty.Remove(activePlayer);
                     return;
                 }
             }
+            ActiveParty.Add(tempPlayer);
         }
 
         public void InitializeCommands()
         {
             SelectSlotCommand = new RelayCommand(PerformSelectSlotCommand);
         }
+        
+        public ICommand SelectSlotCommand { get; set; }
 
-        private ICommand SelectSlotCommand { get; set; }
-
-        public ObservableCollection<Player> ActiveParty { get { return DataService.ActiveParty; }}
     }
 }
  
