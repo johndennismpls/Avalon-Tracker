@@ -5,51 +5,14 @@
         Title="MainWindow" Height="900" Width="1600" Loaded="Window_Loaded">
     <Window.Resources>
     </Window.Resources>
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
     <Grid>
-        <StackPanel>
+        <StackPanel Name="PlayerSelectionStackPanel">
             <local:PlayerSelectionView></local:PlayerSelectionView>
             <local:NewPlayerView></local:NewPlayerView>
-            <Button Margin="50,50,50,50" FontSize="50" Content="START MATCH!"/>
+            <Button Name="BtnStartMatch" Margin="50,50,50,50" FontSize="50" Content="START MATCH!"/>
         </StackPanel>
-        <!--<StackPanel Orientation="Horizontal" Margin="0,-10,0,10">
-            <TextBlock Text ="{Binding ''}"/>
-            <Grid x:Name="grid1" DataContext="{StaticResource playerViewSource}" HorizontalAlignment="Left" Margin="0,111,0,0" VerticalAlignment="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-                <TextBox x:Name="idTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                <Label Content="Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-                <TextBox x:Name="nameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                <Label Content="Wins:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-                <TextBox x:Name="winsTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Wins, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                <Label Content="Losses:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-                <TextBox x:Name="lossesTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding Losses, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-            </Grid>
-            <Grid x:Name="grid2" DataContext="{StaticResource playerViewSource}" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.18,-5.438">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Image x:Name="pictureImage" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" Source="{Binding Picture}" VerticalAlignment="Center"/>
-            </Grid>
-            <ListView Width="100" Margin="0,93,0,0">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </StackPanel>-->
     </Grid>
 </Window>

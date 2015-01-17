@@ -70,17 +70,35 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Character.cs" />
+    <Compile Include="CharacterSelectionView.xaml.cs">
+      <DependentUpon>CharacterSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CharacterSelectionViewModel.cs" />
     <Compile Include="DataService.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="NewPlayerView.xaml.cs">
       <DependentUpon>NewPlayerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewPlayerViewModel.cs" />
+    <Compile Include="PartySelectorView.xaml.cs">
+      <DependentUpon>PartySelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PartySelectorViewModel.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="PlayerSelectionControl.xaml.cs">
       <DependentUpon>PlayerSelectionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlayerSelectionViewModel.cs" />
+    <Compile Include="SerializableStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SerializableStrings.resx</DependentUpon>
+    </Compile>
+    <Page Include="CharacterSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -94,6 +112,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NewPlayerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PartySelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -119,6 +141,10 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerializableStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SerializableStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
