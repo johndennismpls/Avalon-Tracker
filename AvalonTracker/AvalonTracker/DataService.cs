@@ -16,6 +16,9 @@ namespace AvalonTracker
         public static ObservableCollection<Player> ActiveParty = new ObservableCollection<Player>();
 
 
+
+
+
         private static List<CharacterClass> characterClasses = new List<CharacterClass>()
         {
             //Good guys
@@ -31,6 +34,32 @@ namespace AvalonTracker
             new CharacterClass(SerializableStrings.Morgana, Allegiance.Bad),
         };
         public static IList<CharacterClass> CharacterClasses {get { return characterClasses; }}
+
+        public static int GetPartySize(int questNumber)
+        {
+            switch (ActivePlayers.Count)
+            {
+                case 5:
+                    switch (questNumber)
+                    {
+                        case 1:
+                        case 3:
+                            return 2;
+                        case 2:
+                        case 4:
+                        case 5:
+                            return 3;
+                    }
+                    break;
+                case 6:
+                    switch (questNumber)
+                    {
+                        case 1:
+                            return 2;
+                    }
+            }
+            throw new NotSupportedException();
+        }
 
     }
 }
