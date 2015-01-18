@@ -87,6 +87,10 @@
     <Compile Include="PartySelectorViewModel.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="QuestResultsViewModel.cs" />
+    <Compile Include="QuestResultView.xaml.cs">
+      <DependentUpon>QuestResultView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RelayCommand.cs" />
     <Compile Include="PlayerSelectionControl.xaml.cs">
       <DependentUpon>PlayerSelectionControl.xaml</DependentUpon>
@@ -122,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlayerSelectionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QuestResultView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

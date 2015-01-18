@@ -86,7 +86,7 @@ namespace AvalonTracker
                         case 3:
                             return 4;
                         case 4:
-                        case 5; 
+                        case 5: 
                             return 5;
                     }
                     break;
