@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="AvalonTracker.PlayerToggleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AvalonTracker" 
+             mc:Ignorable="d" 
+             Height="400" Width="320">
+    <UserControl.DataContext>
+        <local:PlayerToggleControlViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Button Name="BtnPlayer" Content="{Binding thePlayer.Name}" Command="{Binding SelectPlayerCommand}" BorderThickness="{Binding BorderThickness}" BorderBrush="Red"/>
+    </Grid>
+</UserControl>

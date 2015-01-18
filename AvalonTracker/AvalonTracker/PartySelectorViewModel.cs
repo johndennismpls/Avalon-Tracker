@@ -12,6 +12,7 @@ namespace AvalonTracker
     {
         public ObservableCollection<Player> ActivePlayers { get { return DataService.ActivePlayers; } }
         public ObservableCollection<Player> ActiveParty { get { return DataService.ActiveParty; } }
+        public ObservableCollection<bool> SelectedCell { get; private set; }
 
         public PartySelectorViewModel()
         {
@@ -20,6 +21,9 @@ namespace AvalonTracker
 
         private void PerformSelectSlotCommand(object player)
         {
+            if (player == null)
+                return;
+
             var tempPlayer = player as Player;
             foreach (Player activePlayer in ActiveParty)
             {
@@ -34,6 +38,7 @@ namespace AvalonTracker
 
         public void InitializeCommands()
         {
+            SelectedCell = new ObservableCollection<bool>(){false, false, false, false, false, false, false, false, false, false};
             SelectSlotCommand = new RelayCommand(PerformSelectSlotCommand);
         }
         

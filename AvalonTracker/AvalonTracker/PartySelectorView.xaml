@@ -23,16 +23,67 @@
                 <RowDefinition Height="400"/>
                 <RowDefinition Height="400"/>
             </Grid.RowDefinitions>
-            <Button Name ="BtnSlotOne"  Grid.Column="0" Grid.Row="0" Command="{Binding SelectSlotCommand}" CommandParameter="{Binding ActivePlayers[0]}" Content="{Binding ActivePlayers[0].Name}" IsEnabled="{Binding ActivePlayers[0]}"></Button>
-            <Button Name ="BtnSlotTwo"  Grid.Column="1" Grid.Row="0" Command="{Binding SelectSlotCommand}" CommandParameter="{Binding ActivePlayers[1]}" Content="{Binding ActivePlayers[1].Name}" IsEnabled="{Binding ActivePlayers[1]}"></Button>
-            <Button Name ="BtnSlotThree"  Grid.Column="2" Grid.Row="0"></Button>
-            <Button Name ="BtnSlotFour"  Grid.Column="3" Grid.Row="0"></Button>
-            <Button Name ="BtnSlotFive"  Grid.Column="4" Grid.Row="0"></Button>
-            <Button Name ="BtnSlotSix"  Grid.Column="0" Grid.Row="1"></Button>
-            <Button Name ="BtnSlotSeven"  Grid.Column="1" Grid.Row="1"></Button>
-            <Button Name ="BtnSlotEight"  Grid.Column="2" Grid.Row="1"></Button>
-            <Button Name ="BtnSlotNine"  Grid.Column="3" Grid.Row="1"></Button>
-            <Button Name ="BtnSlotTen"  Grid.Column="4" Grid.Row="1"></Button>
+            <local:PlayerToggleControl x:Name="PlayerOne" Player="{Binding ActivePlayers[0]}" Grid.Column="0" Grid.Row="0" />
+            <local:PlayerToggleControl x:Name="PlayerTwo" Player="{Binding ActivePlayers[1]}" Grid.Column="1" Grid.Row="0" />
+            <local:PlayerToggleControl x:Name="PlayerThree" Player="{Binding ActivePlayers[2]}" Grid.Column="2" Grid.Row="0" />
+            <local:PlayerToggleControl x:Name="PlayerFour" Player="{Binding ActivePlayers[3]}" Grid.Column="3" Grid.Row="0" />
+            <local:PlayerToggleControl x:Name="PlayerFive" Player="{Binding ActivePlayers[4]}" Grid.Column="4" Grid.Row="0" />
+            <local:PlayerToggleControl x:Name="PlayerSix" Player="{Binding ActivePlayers[5]}" Grid.Column="0" Grid.Row="1" />
+            <local:PlayerToggleControl x:Name="PlayerSeven" Player="{Binding ActivePlayers[6]}" Grid.Column="1" Grid.Row="1" />
+            <local:PlayerToggleControl x:Name="PlayerEight" Player="{Binding ActivePlayers[7]}" Grid.Column="2" Grid.Row="1" />
+            <local:PlayerToggleControl x:Name="PlayerNine" Player="{Binding ActivePlayers[8]}" Grid.Column="3" Grid.Row="1" />
+            <local:PlayerToggleControl x:Name="PlayerTen" Player="{Binding ActivePlayers[9]}" Grid.Column="4" Grid.Row="1" />
+
+            <!--<Button Name ="BtnSlotOne"  
+                        Command="{Binding SelectSlotCommand}" 
+                        CommandParameter="{Binding ActivePlayers[0]}"
+                        Content="{Binding ActivePlayers[0].Name}" 
+                        IsEnabled="{Binding ActivePlayers[0]}"/>
+            <Button Name ="BtnSlotTwo"  Grid.Column="1" Grid.Row="0" 
+                    Command="{Binding SelectSlotCommand}" 
+                    CommandParameter="{Binding ActivePlayers[1]}"
+                    Content="{Binding ActivePlayers[1].Name}" 
+                    IsEnabled="{Binding ActivePlayers[1]}"/>
+            <Button Name ="BtnSlotThree"  Grid.Column="2" Grid.Row="0" 
+                    Command="{Binding SelectSlotCommand}" 
+                    CommandParameter="{Binding ActivePlayers[2]}" 
+                    Content="{Binding ActivePlayers[2].Name}" 
+                    IsEnabled="{Binding ActivePlayers[2]}"/>
+            <Button Name ="BtnSlotFour"  Grid.Column="3" Grid.Row="0"
+                    Command="{Binding SelectSlotCommand}" 
+                    CommandParameter="{Binding ActivePlayers[3]}" 
+                    Content="{Binding ActivePlayers[3].Name}" 
+                    IsEnabled="{Binding ActivePlayers[3]}"/>
+            <Button Name ="BtnSlotFive"  Grid.Column="4" Grid.Row="0"                   
+                    Command="{Binding SelectSlotCommand}" 
+                    CommandParameter="{Binding ActivePlayers[4]}" 
+                    Content="{Binding ActivePlayers[4].Name}" 
+                    IsEnabled="{Binding ActivePlayers[4]}"/>
+            <Button Name ="BtnSlotSix"  Grid.Column="0" Grid.Row="1"
+                    Command="{Binding SelectSlotCommand}" 
+                    CommandParameter="{Binding ActivePlayers[5]}" 
+                    Content="{Binding ActivePlayers[5].Name}" 
+                    IsEnabled="{Binding ActivePlayers[5]}"/>
+            <Button Name ="BtnSlotSeven"  Grid.Column="1" Grid.Row="1"
+                    Command="{Binding SelectSlotCommand}" 
+                    CommandParameter="{Binding ActivePlayers[6]}" 
+                    Content="{Binding ActivePlayers[6].Name}" 
+                    IsEnabled="{Binding ActivePlayers[6]}"/>
+            <Button Name ="BtnSlotEight"  Grid.Column="2" Grid.Row="1"
+                    Command="{Binding SelectSlotCommand}" 
+                    CommandParameter="{Binding ActivePlayers[7]}" 
+                    Content="{Binding ActivePlayers[7].Name}" 
+                    IsEnabled="{Binding ActivePlayers[7]}"/>
+            <Button Name ="BtnSlotNine"  Grid.Column="3" Grid.Row="1"
+                    Command="{Binding SelectSlotCommand}" 
+                    CommandParameter="{Binding ActivePlayers[8]}" 
+                    Content="{Binding ActivePlayers[8].Name}" 
+                    IsEnabled="{Binding ActivePlayers[8]}"/>
+            <Button Name ="BtnSlotTen"  Grid.Column="4" Grid.Row="1"
+                    Command="{Binding SelectSlotCommand}" 
+                    CommandParameter="{Binding ActivePlayers[9]}" 
+                    Content="{Binding ActivePlayers[9].Name}" 
+                    IsEnabled="{Binding ActivePlayers[9]}"/>-->
         </Grid>
         <StackPanel Orientation="Horizontal">
             <Label Name="LblQuestRequirements" Content="Quest No. 1 requires 2 players" FontSize="30"></Label>

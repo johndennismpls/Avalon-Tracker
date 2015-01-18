@@ -1,0 +1,8 @@
+﻿CREATE TABLE Player
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Name] NCHAR(256) NULL, 
+    [Wins] INT NOT NULL DEFAULT 0, 
+    [Losses] INT NOT NULL DEFAULT 0, 
+    [Picture] IMAGE NULL
+)

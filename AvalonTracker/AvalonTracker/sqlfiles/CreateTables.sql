@@ -1,37 +1,36 @@
 ﻿
-CREATE TABLE Player
+CREATE TABLE Players
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
-    [Name] NCHAR(256) NULL, 
-    [Wins] INT NOT NULL DEFAULT 0, 
-    [Losses] INT NOT NULL DEFAULT 0, 
-    [Picture] IMAGE NULL
+    [Id] INT NOT NULL PRIMARY KEY, 
+    [Name] NCHAR(256) NULL,
 )
 
-CREATE TABLE Class
+CREATE TABLE Characters
 (
 	[Id] INT NOT NULL PRIMARY KEY,
     [Name] NCHAR(256) NULL, 
 	[GoodTeam] BIT NOT NULL 
 )
 
-CREATE TABLE GameInstance
+CREATE TABLE GameInstances
 (
 	[Id] INT NOT NULL PRIMARY KEY,
 	[Date] DATETIME NULL
+	[WinnerGood] BIT NOT NULL,
+	[Assassinated] BIT NOT NULL,
 )
 
-CREATE TABLE Vote
+CREATE TABLE Votes
 (
 	[Id] INT NOT NULL PRIMARY KEY,
-	[PlayerId] INT NOT NULL FOREIGN KEY REFERENCES Player(Id),
-	[GameId] INT NOT NULL FOREIGN KEY REFERENCES GameInstance(Id),
+	[PlayerId] INT NOT NULL FOREIGN KEY REFERENCES Players(Id),
+	[GameId] INT NOT NULL FOREIGN KEY REFERENCES GameInstances(Id),
 	[Quest] INT NOT NULL,
 	[VoteTrack] INT NOT NULL,
 	[Accept] BIT NOT NULL 
 )
 
-CREATE TABLE PlayerInstance
+CREATE TABLE PlayerInstances
 (
 	[Id] INT NOT NULL PRIMARY KEY,
 	[PlayerId] INT NOT NULL FOREIGN KEY REFERENCES Player(Id),
