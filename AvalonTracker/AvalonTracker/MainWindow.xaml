@@ -16,11 +16,11 @@
             <Button Name="BtnStartMatch" Command="{Binding StartMatchCommand}" Margin="50,50,50,50" FontSize="50" Content="START MATCH!"/>
         </StackPanel>
         
-        <StackPanel>
+        <!--<StackPanel>
             <local:QuestResultView>
                 
             </local:QuestResultView>
-        </StackPanel>
+        </StackPanel>-->
         <!--Party Selection-->
         <StackPanel Name="PartySelectionStackPanel" Visibility="{Binding PartySelectionVisibility}">
             <local:PartySelectorView></local:PartySelectorView>
