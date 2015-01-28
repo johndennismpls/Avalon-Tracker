@@ -14,21 +14,18 @@ namespace AvalonTracker
 {
     public class PlayerToggleControlViewModel : INotifyPropertyChanged
     {
+        private Player _thePlayer;
 
-
-        //private Visibility _partySelectionVisibility;
-        //public Visibility PartySelectionVisibility
-        //{
-        //    get { return _partySelectionVisibility; }
-        //    private set
-        //    {
-        //        _partySelectionVisibility = value;
-        //        OnPropertyChanged("PartySelectionVisibility");
-        //    }
-        //}
-
-
-        public Player thePlayer { get; set; }
+        public Player thePlayer
+        {
+            get { return _thePlayer; }
+            set
+            {
+                if (Equals(value, _thePlayer)) return;
+                _thePlayer = value;
+                OnPropertyChanged();
+            }
+        }
 
         public PlayerToggleControlViewModel()
         {
@@ -64,8 +61,7 @@ namespace AvalonTracker
 
         private bool CanPerformSelectPlayerCommand(object obj )
         {
-           // return (thePlayer != null);
-            return true;
+            return thePlayer != null;
         }
 
         public ICommand SelectPlayerCommand { get; set; }

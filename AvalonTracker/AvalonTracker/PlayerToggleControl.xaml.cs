@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,14 +25,21 @@ namespace AvalonTracker
         public PlayerToggleControl()
         {
             InitializeComponent();
+            DataContext = _playerToggleControlViewModel;
         }
 
         public Player Player
         {
-            get { return (Player) this.GetValue(PlayerProperty); }
-            set {this.SetValue(PlayerProperty, value);}
+            get { return (Player)this.GetValue(PlayerProperty); }
+            set { this.SetValue(PlayerProperty, value); }
         }
 
-        public static readonly DependencyProperty PlayerProperty = DependencyProperty.Register("Player", typeof (Player), typeof(PlayerToggleControl));
+        public static readonly DependencyProperty PlayerProperty = DependencyProperty.Register("Player", typeof(Player), typeof(PlayerToggleControl), new FrameworkPropertyMetadata(new PropertyChangedCallback(PropChangedTarget)));
+
+        private static void PropChangedTarget(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var control = (PlayerToggleControl)dependencyObject;
+            control._playerToggleControlViewModel.thePlayer = control.Player;
+        }
     }
 }
