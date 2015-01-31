@@ -14,8 +14,14 @@ namespace AvalonTracker
 {
     public class PlayerToggleControlViewModel : INotifyPropertyChanged
     {
-        private Player _thePlayer;
+        public PlayerToggleControlViewModel()
+        {
+            BorderThickness = 0;
+            InitializeCommands();
+        }
 
+
+        private Player _thePlayer;
         public Player thePlayer
         {
             get { return _thePlayer; }
@@ -27,15 +33,36 @@ namespace AvalonTracker
             }
         }
 
-        public PlayerToggleControlViewModel()
-        {
-            BorderThickness = 0;
-            InitializeCommands();
-        }
+        public GameState CurrentGameState { get { return DataService.CurrentGameState; } }
 
         public int BorderThickness { get; private set; }
 
         private void PerformSelectPlayerCommand(object obj)
+        {
+            switch (CurrentGameState)
+            {
+                case GameState.PartySelection:
+                    AddRemovePlayerFromParty(obj);
+                    break;
+                case GameState.PartyVoting:
+                    ApproveRejectVoting(obj);
+                    break;
+            }
+        }
+
+        private string _voteString;
+        public string VoteString { get { return _voteString; } }
+
+        private void ApproveRejectVoting(object obj)
+        {
+            var key = new Tuple<Player, int>(thePlayer, DataService.CurrentQuest);
+            DataService.VoteTable[key] = !DataService.VoteTable[key];
+            _voteString = DataService.VoteTable[key] ? "APPROVE!" : "REJECT!";
+            OnPropertyChanged("VoteString");
+        }
+
+
+        private void AddRemovePlayerFromParty(object obj)
         {
             bool selectPlayer = true;
             foreach (var activePlayer in DataService.ActiveParty)

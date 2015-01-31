@@ -30,14 +30,13 @@ namespace AvalonTracker
 
         private Visibility _playerSelectionVisibility;
         private Visibility _partySelectionVisibility;
-        private Visibility _voteButtonVisibility;
         
         public Visibility PlayerSelectionVisibility { 
             get { return _playerSelectionVisibility; } 
             private set
             {
                 _playerSelectionVisibility = value;
-                OnPropertyChanged("PlayerSelectionVisibility");
+                OnPropertyChanged();
             } 
         }
 
@@ -47,21 +46,9 @@ namespace AvalonTracker
             private set
             {
                 _partySelectionVisibility = value;
-                OnPropertyChanged("PartySelectionVisibility");
-            }
-        }
-
-        public Visibility VoteButtonVisibility
-        {
-            get { return _voteButtonVisibility; }
-            set
-            {
-                if (value == _voteButtonVisibility) return;
-                _voteButtonVisibility = value;
                 OnPropertyChanged();
             }
         }
-
 
         private bool CanPerformStartMatchCommand(object obj)
         {
@@ -75,13 +62,46 @@ namespace AvalonTracker
             DataService.CurrentGameState = GameState.PartySelection;
             ShowControlsForGameState(DataService.CurrentGameState);
             OnPropertyChanged("RequiredPlayers");
+            OnPropertyChanged("NextStateBtnText");
         }
 
         private void PerformGoToVoteCommand(object obj)
         {
+            if (DataService.CurrentGameState == GameState.PartySelection)
+            {
+                PartySelectionHelper(obj);
+            }
+            if (DataService.CurrentGameState == GameState.PartyVoting)
+            {
+                PartyVotingHelper(obj);
+            }
+        }
+
+        private void PartyVotingHelper(object obj)
+        {
+            int ApproveVotes = 0;
+            foreach (var player in DataService.ActivePlayers)
+            {
+                if (DataService.VoteTable[new Tuple<Player, int>(player, DataService.CurrentQuest)])
+                    ApproveVotes++;
+            }
+            if ((double)ApproveVotes / DataService.ActivePlayers.Count > .5)
+            {
+                DataService.CurrentGameState = GameState.QuestVoting;
+                ShowControlsForGameState(DataService.CurrentGameState);
+            }
+        }
+
+        private void PartySelectionHelper(object obj)
+        {
+            foreach (var player in DataService.ActivePlayers)
+            {
+                DataService.VoteTable.Add(new Tuple<Player, int>(player, DataService.CurrentQuest), false);
+            }
+
             DataService.CurrentGameState = GameState.PartyVoting;
             ShowControlsForGameState(DataService.CurrentGameState);
-            DataService.CurrentGameState = GameState.PartyVoting;
+            OnPropertyChanged("NextStateBtnText");
         }
 
         private bool CanGoToVote(object obj)
@@ -99,6 +119,21 @@ namespace AvalonTracker
         }
 
 
+        public string NextStateBtnText
+        {
+            get
+            {
+                switch (DataService.CurrentGameState)
+                {
+                    case GameState.PartySelection:
+                        return "Propose Party!";
+                    case GameState.PartyVoting:
+                        return "Confirm Votes!";
+                }
+                return null;
+            }
+        }
+
 
         private void ShowControlsForGameState(GameState gameState)
         {
@@ -113,6 +148,10 @@ namespace AvalonTracker
                     PartySelectionVisibility = Visibility.Visible;
                     break;
                 case GameState.PartyVoting:
+                    PlayerSelectionVisibility = Visibility.Hidden;
+                    PartySelectionVisibility = Visibility.Visible;
+                    break;
+                case GameState.QuestVoting:
                     PlayerSelectionVisibility = Visibility.Hidden;
                     PartySelectionVisibility = Visibility.Hidden;
                     break;

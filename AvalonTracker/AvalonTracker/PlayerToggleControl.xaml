@@ -10,6 +10,11 @@
         <local:PlayerToggleControlViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <Button Name="BtnPlayer" Content="{Binding thePlayer.Name}" Command="{Binding SelectPlayerCommand}" BorderThickness="{Binding BorderThickness}" BorderBrush="Red"/>
+        <Button Name="BtnPlayer" Command="{Binding SelectPlayerCommand}" BorderThickness="{Binding BorderThickness}" BorderBrush="Red">
+            <StackPanel>
+                <Label Content="{Binding thePlayer.Name}" FontSize ="40"/>
+                <Label Name="LblVote" Content="{Binding VoteString}" FontSize="40"></Label>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

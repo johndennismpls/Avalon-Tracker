@@ -40,12 +40,10 @@ namespace AvalonTracker
         {
             CurrentQuest += 1;
         }
+        
+        public static GameState CurrentGameState { get; set; }
 
-
-        public static GameState CurrentGameState
-        {
-            get; set;
-        }
+        public static Dictionary<Tuple<Player, int>, bool> VoteTable = new Dictionary<Tuple<Player, int>, bool>();
 
         private static List<CharacterClass> characterClasses = new List<CharacterClass>()
         {
