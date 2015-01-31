@@ -71,15 +71,17 @@ namespace AvalonTracker
 
         private void PerformStartMatchCommand(object obj)
         {
-            PlayerSelectionVisibility = Visibility.Hidden;
-            PartySelectionVisibility = Visibility.Visible;
             DataService.AdvanceToNextQuest();
+            DataService.CurrentGameState = GameState.PartySelection;
+            ShowControlsForGameState(DataService.CurrentGameState);
             OnPropertyChanged("RequiredPlayers");
         }
 
         private void PerformGoToVoteCommand(object obj)
         {
-
+            DataService.CurrentGameState = GameState.PartyVoting;
+            ShowControlsForGameState(DataService.CurrentGameState);
+            DataService.CurrentGameState = GameState.PartyVoting;
         }
 
         private bool CanGoToVote(object obj)
@@ -94,6 +96,27 @@ namespace AvalonTracker
         public string RequiredPlayers
         {
             get { return string.Format("Quest No. {0} requires {1} players", DataService.CurrentQuest, DataService.GetPartySize(DataService.CurrentQuest)); }
+        }
+
+
+
+        private void ShowControlsForGameState(GameState gameState)
+        {
+            switch (gameState)
+            {
+                case GameState.PlayerSelection:
+                    PlayerSelectionVisibility = Visibility.Visible;
+                    PartySelectionVisibility = Visibility.Hidden;
+                    break;
+                case GameState.PartySelection:
+                    PlayerSelectionVisibility = Visibility.Hidden;
+                    PartySelectionVisibility = Visibility.Visible;
+                    break;
+                case GameState.PartyVoting:
+                    PlayerSelectionVisibility = Visibility.Hidden;
+                    PartySelectionVisibility = Visibility.Hidden;
+                    break;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

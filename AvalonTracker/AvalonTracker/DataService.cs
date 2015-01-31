@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,9 +46,6 @@ namespace AvalonTracker
         {
             get; set;
         }
-
-
-
 
         private static List<CharacterClass> characterClasses = new List<CharacterClass>()
         {
