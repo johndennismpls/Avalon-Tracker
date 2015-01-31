@@ -11,14 +11,14 @@
     </UserControl.DataContext>
     <StackPanel x:Name="stackPanel">
         <TextBlock Name ="TxtBlockChooseParty" HorizontalAlignment="Center" FontSize="30" FontStyle="Italic">Choose Your Party!</TextBlock>
-    <Grid VerticalAlignment="Top" HorizontalAlignment="Left" ShowGridLines="True" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"/>
-            <ColumnDefinition Width="320"/>
-            <ColumnDefinition Width="320"/>
-            <ColumnDefinition Width="320"/>
-            <ColumnDefinition Width="320"/>
-        </Grid.ColumnDefinitions>
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" ShowGridLines="True" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="320"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="400"/>
                 <RowDefinition Height="400"/>
@@ -35,8 +35,8 @@
             <local:PlayerToggleControl x:Name="PlayerTen" Player="{Binding DataContext.ActivePlayers[9], ElementName=stackPanel}" Grid.Column="4" Grid.Row="1" />
         </Grid>
         <StackPanel Orientation="Horizontal">
-            <Label Name="LblQuestRequirements" Content="Quest No. 1 requires 2 players" FontSize="30"></Label>
-            <Button Name="BtnResetSelection" Content="Reset Selection"></Button>
+            <!--<Label Name="LblQuestRequirements" Content="{Binding RequiredPlayers}" FontSize="40" Width="635" Foreground="red" FontStyle="Italic"></Label>
+            <Button Name="BtnGoToVote" Content="Propose Party!" Command="{Binding GoToVoteCommand}" Visibility="{Binding VoteButtonVisibility}" Width="962" FontStyle="Italic" FontWeight="Bold" FontSize="40"/>-->
         </StackPanel>
     </StackPanel>
 </UserControl>

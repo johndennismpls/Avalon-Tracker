@@ -7,14 +7,44 @@ using System.Threading.Tasks;
 
 namespace AvalonTracker
 {
+    public enum GameState
+    {
+        PlayerSelection,
+        PartySelection,
+        PartyVoting,
+        QuestVoting,
+    }
+
+
     public static class DataService
     {
-        public static ObservableCollection<Player> AllPlayers = new ObservableCollection<Player>();
+        public static ObservableCollection<Player> AllPlayers = new ObservableCollection<Player>()
+        {
+            new Player(){Name = "John"},
+            new Player(){Name = "Mike"},
+            new Player(){Name = "Mark"},
+            new Player(){Name = "James"},
+            new Player(){Name = "Matt"},
+            new Player(){Name = "Laura"},
+            new Player(){Name = "Ben"},
+        };
 
         public static ObservableCollection<Player> ActivePlayers = new ObservableCollection<Player>();
 
         public static ObservableCollection<Player> ActiveParty = new ObservableCollection<Player>();
 
+        public static int CurrentQuest { get; private set; }
+        
+        public static void AdvanceToNextQuest()
+        {
+            CurrentQuest += 1;
+        }
+
+
+        public static GameState CurrentGameState
+        {
+            get; set;
+        }
 
 
 
@@ -33,6 +63,13 @@ namespace AvalonTracker
             new CharacterClass(SerializableStrings.Oberon, Allegiance.Bad),
             new CharacterClass(SerializableStrings.Morgana, Allegiance.Bad),
         };
+
+
+        static DataService()
+        {
+            CurrentQuest = 0;
+        }
+
         public static IList<CharacterClass> CharacterClasses {get { return characterClasses; }}
 
         public static int GetPartySize(int questNumber)
@@ -117,7 +154,7 @@ namespace AvalonTracker
                     }
                     break;
             }
-            throw new NotSupportedException();
+            return -1;
         }
 
     }

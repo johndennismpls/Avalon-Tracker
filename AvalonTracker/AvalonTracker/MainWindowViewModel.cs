@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -13,7 +14,24 @@ namespace AvalonTracker
 {
     public class MainWindowViewModel: INotifyPropertyChanged
     {
+        public MainWindowViewModel()
+        {
+            PlayerSelectionVisibility = Visibility.Visible;
+            PartySelectionVisibility = Visibility.Hidden;
+
+            InitializeCommands();
+        }
+
+        private void InitializeCommands()
+        {
+            StartMatchCommand = new RelayCommand(PerformStartMatchCommand, CanPerformStartMatchCommand);
+            GoToVoteCommand = new RelayCommand(PerformGoToVoteCommand, CanGoToVote);
+        }
+
         private Visibility _playerSelectionVisibility;
+        private Visibility _partySelectionVisibility;
+        private Visibility _voteButtonVisibility;
+        
         public Visibility PlayerSelectionVisibility { 
             get { return _playerSelectionVisibility; } 
             private set
@@ -23,7 +41,6 @@ namespace AvalonTracker
             } 
         }
 
-        private Visibility _partySelectionVisibility;
         public Visibility PartySelectionVisibility
         {
             get { return _partySelectionVisibility; }
@@ -34,38 +51,50 @@ namespace AvalonTracker
             }
         }
 
-        public MainWindowViewModel()
+        public Visibility VoteButtonVisibility
         {
-            PlayerSelectionVisibility = Visibility.Visible;
-            PartySelectionVisibility = Visibility.Hidden;
-
-            InitializeCommands();
+            get { return _voteButtonVisibility; }
+            set
+            {
+                if (value == _voteButtonVisibility) return;
+                _voteButtonVisibility = value;
+                OnPropertyChanged();
+            }
         }
+
 
         private bool CanPerformStartMatchCommand(object obj)
         {
-            return true;
-            //if (DataService.ActivePlayers.Count > GlobalConstants.MinimumPlayers && DataService.ActivePlayers.Count < GlobalConstants.MaximumPlayers)
-            //{
-            //    return true;
-            //}
-            //return false;
+            return (DataService.ActivePlayers.Count > GlobalConstants.MinimumPlayers)
+                    && DataService.ActivePlayers.Count < GlobalConstants.MaximumPlayers;
         }
 
         private void PerformStartMatchCommand(object obj)
         {
             PlayerSelectionVisibility = Visibility.Hidden;
             PartySelectionVisibility = Visibility.Visible;
+            DataService.AdvanceToNextQuest();
+            OnPropertyChanged("RequiredPlayers");
         }
 
+        private void PerformGoToVoteCommand(object obj)
+        {
+
+        }
+
+        private bool CanGoToVote(object obj)
+        {
+            return DataService.ActiveParty.Count == DataService.GetPartySize(DataService.CurrentQuest);
+        }
+
+        public ICommand GoToVoteCommand { get; set; }
         public ICommand StartMatchCommand { get; private set; }
 
-        private void InitializeCommands()
+
+        public string RequiredPlayers
         {
-            StartMatchCommand = new RelayCommand(PerformStartMatchCommand, CanPerformStartMatchCommand);
+            get { return string.Format("Quest No. {0} requires {1} players", DataService.CurrentQuest, DataService.GetPartySize(DataService.CurrentQuest)); }
         }
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

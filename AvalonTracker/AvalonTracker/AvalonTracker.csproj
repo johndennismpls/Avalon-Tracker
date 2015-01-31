@@ -193,6 +193,15 @@
   <ItemGroup>
     <Resource Include="Resources\MainBackground.JPG" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Approve.JPG" />
+    <Resource Include="Resources\FailCard.JPG" />
+    <Resource Include="Resources\LadyOfTheLake.JPG" />
+    <Resource Include="Resources\PartyLeader.JPG" />
+    <Resource Include="Resources\PartyMember.JPG" />
+    <Resource Include="Resources\Reject.JPG" />
+    <Resource Include="Resources\SucessCard.JPG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
