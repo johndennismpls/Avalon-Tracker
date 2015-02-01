@@ -17,13 +17,17 @@
             <Button Name="BtnStartMatch" Command="{Binding StartMatchCommand}" Margin="50,50,50,50" FontSize="50" Content="START MATCH!"/>
         </StackPanel>
         
-        <!--Party Selection-->
+        <!--Party Selection & Voting-->
         <StackPanel Name="PartySelectionStackPanel" Visibility="{Binding PartySelectionVisibility}">
             <local:PartySelectorView/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Label Name="LblQuestRequirements" Content="{Binding RequiredPlayers}" FontSize="40" Width="635" Foreground="red" FontStyle="Italic" FontFamily="Old English Text MT"></Label>
             <Button Name="BtnGoToVote" Content="{Binding NextStateBtnText}" Command="{Binding GoToVoteCommand}" Width="962" FontStyle="Italic" FontWeight="Bold" FontSize="40"/>
             </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Name="QuestResultsStackPanel" Visibility="{Binding QuestResultsVisibility}" HorizontalAlignment="Center" VerticalAlignment ="Center">
+            <local:QuestResultView/>
         </StackPanel>
     </Grid>
 </Window>

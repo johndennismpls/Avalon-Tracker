@@ -16,9 +16,7 @@ namespace AvalonTracker
     {
         public MainWindowViewModel()
         {
-            PlayerSelectionVisibility = Visibility.Visible;
-            PartySelectionVisibility = Visibility.Hidden;
-
+            ShowControlsForGameState(DataService.CurrentGameState);
             InitializeCommands();
         }
 
@@ -30,6 +28,16 @@ namespace AvalonTracker
 
         private Visibility _playerSelectionVisibility;
         private Visibility _partySelectionVisibility;
+        private Visibility _questResultsVisibility;
+
+        public Visibility QuestResultsVisibility
+        {
+            get { return _questResultsVisibility; }
+            private set { 
+                _questResultsVisibility = value;
+                OnPropertyChanged();
+            }
+        }
         
         public Visibility PlayerSelectionVisibility { 
             get { return _playerSelectionVisibility; } 
@@ -142,18 +150,22 @@ namespace AvalonTracker
                 case GameState.PlayerSelection:
                     PlayerSelectionVisibility = Visibility.Visible;
                     PartySelectionVisibility = Visibility.Hidden;
+                    QuestResultsVisibility = Visibility.Hidden;
                     break;
                 case GameState.PartySelection:
                     PlayerSelectionVisibility = Visibility.Hidden;
                     PartySelectionVisibility = Visibility.Visible;
+                    QuestResultsVisibility = Visibility.Hidden;
                     break;
                 case GameState.PartyVoting:
                     PlayerSelectionVisibility = Visibility.Hidden;
                     PartySelectionVisibility = Visibility.Visible;
+                    QuestResultsVisibility = Visibility.Hidden;
                     break;
                 case GameState.QuestVoting:
                     PlayerSelectionVisibility = Visibility.Hidden;
                     PartySelectionVisibility = Visibility.Hidden;
+                    QuestResultsVisibility = Visibility.Visible;
                     break;
             }
         }
