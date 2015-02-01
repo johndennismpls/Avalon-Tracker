@@ -97,6 +97,12 @@ namespace AvalonTracker
             {
                 DataService.CurrentGameState = GameState.QuestVoting;
                 ShowControlsForGameState(DataService.CurrentGameState);
+                DataService.ResetVoteTrack();
+            }
+            else
+            {
+                DataService.AdvanceVoteTrack();
+                OnPropertyChanged("VoteTrackMessage");
             }
         }
 
@@ -126,6 +132,10 @@ namespace AvalonTracker
             get { return string.Format("Quest No. {0} requires {1} players", DataService.CurrentQuest, DataService.GetPartySize(DataService.CurrentQuest)); }
         }
 
+        public string VoteTrackMessage
+        {
+            get { return string.Format("Vote Track: {0}/{1}", DataService.VoteTrack, GlobalConstants.MaxVoteTrack); }
+        }
 
         public string NextStateBtnText
         {

@@ -34,6 +34,18 @@ namespace AvalonTracker
 
         public static ObservableCollection<Player> ActiveParty = new ObservableCollection<Player>();
 
+        public static int VoteTrack { get; private set; }
+
+        public static void AdvanceVoteTrack()
+        {
+            VoteTrack++;
+        }
+
+        public static void ResetVoteTrack()
+        {
+            VoteTrack = 0;
+        }
+
         public static int CurrentQuest { get; private set; }
         
         public static void AdvanceToNextQuest()
