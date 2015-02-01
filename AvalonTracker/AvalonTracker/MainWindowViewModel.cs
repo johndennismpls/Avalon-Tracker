@@ -141,7 +141,7 @@ namespace AvalonTracker
                 return null;
             }
         }
-
+         
 
         private void ShowControlsForGameState(GameState gameState)
         {
