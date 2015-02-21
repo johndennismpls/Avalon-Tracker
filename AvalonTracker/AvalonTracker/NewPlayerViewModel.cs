@@ -18,12 +18,12 @@ namespace AvalonTracker
 
         private void PerformAddPlayer(object name)
         {
-            DataService.AllPlayers.Add(new Player() { Name = NewName });
+            Services.GameService.AllPlayers.Add(new Player() { Name = NewName });
         }
 
         private bool CanAddPlayer(object name)
         {
-            foreach (var player in DataService.AllPlayers)
+            foreach (var player in Services.GameService.AllPlayers)
             {
                 if (player.Name == NewName)
                     return false;

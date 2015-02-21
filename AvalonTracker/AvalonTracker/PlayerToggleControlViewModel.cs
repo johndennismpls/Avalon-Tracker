@@ -33,7 +33,7 @@ namespace AvalonTracker
             }
         }
 
-        public GameState CurrentGameState { get { return DataService.CurrentGameState; } }
+        public GameState CurrentGameState { get { return Services.GameService.CurrentGameState; } }
 
         public int BorderThickness { get; private set; }
 
@@ -55,9 +55,9 @@ namespace AvalonTracker
 
         private void ApproveRejectVoting(object obj)
         {
-            var key = new Tuple<Player, int>(thePlayer, DataService.CurrentQuest);
-            DataService.VoteTable[key] = !DataService.VoteTable[key];
-            _voteString = DataService.VoteTable[key] ? "APPROVE!" : "REJECT!";
+            var key = new Tuple<Player, int,int, int>(thePlayer, Services.GameService.CurrentGameId, Services.GameService.CurrentQuest, Services.GameService.VoteTrack);
+            Services.GameService.VoteTable[key] = !Services.GameService.VoteTable[key];
+            _voteString = Services.GameService.VoteTable[key] ? "APPROVE!" : "REJECT!";
             OnPropertyChanged("VoteString");
         }
 
@@ -65,7 +65,7 @@ namespace AvalonTracker
         private void AddRemovePlayerFromParty(object obj)
         {
             bool selectPlayer = true;
-            foreach (var activePlayer in DataService.ActiveParty)
+            foreach (var activePlayer in Services.GameService.ActiveParty)
             {
                 if (thePlayer == activePlayer)
                 {
@@ -75,12 +75,12 @@ namespace AvalonTracker
             }
             if (selectPlayer)
             {
-                DataService.ActiveParty.Add(thePlayer);
+                Services.GameService.ActiveParty.Add(thePlayer);
                 BorderThickness = 20;
             }
             else
             {
-                DataService.ActiveParty.Remove(thePlayer);
+                Services.GameService.ActiveParty.Remove(thePlayer);
                 BorderThickness = 0;
             }
             OnPropertyChanged("BorderThickness");
@@ -93,6 +93,13 @@ namespace AvalonTracker
 
         public ICommand SelectPlayerCommand { get; set; }
 
+        public Visibility IsPartyChooser
+        {
+            get 
+            {
+                return (Services.GameService.PartyChooser == thePlayer) ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
 
         private void InitializeCommands()
         {

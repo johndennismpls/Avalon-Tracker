@@ -28,12 +28,12 @@ namespace AvalonTracker
                     return;
                 }
             }
-            for (var i = 0; i < DataService.CharacterClasses.Count; i++)
+            for (var i = 0; i < Services.GameService.CharacterClasses.Count; i++)
             {
 
-                if (string.Equals(characterNamelocal, DataService.CharacterClasses[i].Name))
+                if (string.Equals(characterNamelocal, Services.GameService.CharacterClasses[i].Name))
                 {
-                    _activeCharacterClasses.Add(DataService.CharacterClasses[i]);
+                    _activeCharacterClasses.Add(Services.GameService.CharacterClasses[i]);
                     return;
                 }
             }

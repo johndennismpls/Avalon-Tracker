@@ -14,6 +14,7 @@
             <StackPanel>
                 <Label Content="{Binding thePlayer.Name}" FontSize ="40"/>
                 <Label Name="LblVote" Content="{Binding VoteString}" FontSize="40"></Label>
+                <Ellipse Name="ShapePartyChooser" Width="40" Height="40" Fill="RoyalBlue" Visibility="{Binding IsPartyChooser}" ></Ellipse>
             </StackPanel>
         </Button>
     </Grid>

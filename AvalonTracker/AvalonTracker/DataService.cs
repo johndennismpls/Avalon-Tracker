@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using AvalonTracker.Annotations;
 
 namespace AvalonTracker
 {
@@ -17,9 +19,9 @@ namespace AvalonTracker
     }
 
 
-    public static class DataService
+    public class GameService : INotifyPropertyChanged
     {
-        public static ObservableCollection<Player> AllPlayers = new ObservableCollection<Player>()
+        public ObservableCollection<Player> AllPlayers = new ObservableCollection<Player>()
         {
             new Player(){Name = "John"},
             new Player(){Name = "Mike"},
@@ -30,34 +32,58 @@ namespace AvalonTracker
             new Player(){Name = "Ben"},
         };
 
-        public static ObservableCollection<Player> ActivePlayers = new ObservableCollection<Player>();
+        public ObservableCollection<Player> ActivePlayers = new ObservableCollection<Player>();
 
-        public static ObservableCollection<Player> ActiveParty = new ObservableCollection<Player>();
+        public ObservableCollection<Player> ActiveParty = new ObservableCollection<Player>();
 
-        public static int VoteTrack { get; private set; }
+        private int _partyChooserIndex = 0;
 
-        public static void AdvanceVoteTrack()
+        public void AdvancePartyChooser()
+        {
+            _partyChooserIndex++;
+            if (_partyChooserIndex > ActivePlayers.Count)
+            {
+                _partyChooserIndex = 0;
+            }
+            OnPropertyChanged("PartyChooser");
+        }
+
+        public Player PartyChooser
+        {
+            get
+            {
+                return ActivePlayers.Count > 0 ? ActivePlayers[_partyChooserIndex] : null;
+            }
+        }
+
+        public int CurrentGameId { get { return 0; }}
+
+        public int VoteTrack { get; private set; }
+
+        public void AdvanceVoteTrack()
         {
             VoteTrack++;
         }
 
-        public static void ResetVoteTrack()
+        public void ResetVoteTrack()
         {
             VoteTrack = 0;
         }
 
-        public static int CurrentQuest { get; private set; }
+        public int CurrentQuest { get; private set; }
         
-        public static void AdvanceToNextQuest()
+        public void AdvanceToNextQuest()
         {
             CurrentQuest += 1;
         }
-        
-        public static GameState CurrentGameState { get; set; }
 
-        public static Dictionary<Tuple<Player, int>, bool> VoteTable = new Dictionary<Tuple<Player, int>, bool>();
 
-        private static List<CharacterClass> characterClasses = new List<CharacterClass>()
+        public GameState CurrentGameState { get; set; }
+
+        //Player, Game, Quest, VotingRound
+        public Dictionary<Tuple<Player, int, int, int>, bool> VoteTable = new Dictionary<Tuple<Player, int, int, int>, bool>();
+
+        private List<CharacterClass> characterClasses = new List<CharacterClass>()
         {
             //Good guys
             new CharacterClass(SerializableStrings.LoyalServantOfArthur, Allegiance.Good),
@@ -72,15 +98,9 @@ namespace AvalonTracker
             new CharacterClass(SerializableStrings.Morgana, Allegiance.Bad),
         };
 
+        public IList<CharacterClass> CharacterClasses {get { return characterClasses; }}
 
-        static DataService()
-        {
-            CurrentQuest = 0;
-        }
-
-        public static IList<CharacterClass> CharacterClasses {get { return characterClasses; }}
-
-        public static int GetPartySize(int questNumber)
+        public int GetPartySize(int questNumber)
         {
             switch (ActivePlayers.Count)
             {
@@ -165,5 +185,23 @@ namespace AvalonTracker
             return -1;
         }
 
+
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }  
+    }
+
+
+    public static class Services 
+    {
+        public static GameService GameService = new GameService();
     }
 }

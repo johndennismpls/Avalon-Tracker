@@ -16,7 +16,7 @@ namespace AvalonTracker
     {
         public MainWindowViewModel()
         {
-            ShowControlsForGameState(DataService.CurrentGameState);
+            ShowControlsForGameState(Services.GameService.CurrentGameState);
             InitializeCommands();
         }
 
@@ -60,26 +60,26 @@ namespace AvalonTracker
 
         private bool CanPerformStartMatchCommand(object obj)
         {
-            return (DataService.ActivePlayers.Count > GlobalConstants.MinimumPlayers)
-                    && DataService.ActivePlayers.Count < GlobalConstants.MaximumPlayers;
+            return (Services.GameService.ActivePlayers.Count > GlobalConstants.MinimumPlayers)
+                    && Services.GameService.ActivePlayers.Count < GlobalConstants.MaximumPlayers;
         }
 
         private void PerformStartMatchCommand(object obj)
         {
-            DataService.AdvanceToNextQuest();
-            DataService.CurrentGameState = GameState.PartySelection;
-            ShowControlsForGameState(DataService.CurrentGameState);
+            Services.GameService.AdvanceToNextQuest();
+            Services.GameService.CurrentGameState = GameState.PartySelection;
+            ShowControlsForGameState(Services.GameService.CurrentGameState);
             OnPropertyChanged("RequiredPlayers");
             OnPropertyChanged("NextStateBtnText");
         }
 
         private void PerformGoToVoteCommand(object obj)
         {
-            if (DataService.CurrentGameState == GameState.PartySelection)
+            if (Services.GameService.CurrentGameState == GameState.PartySelection)
             {
                 PartySelectionHelper(obj);
             }
-            if (DataService.CurrentGameState == GameState.PartyVoting)
+            else if (Services.GameService.CurrentGameState == GameState.PartyVoting)
             {
                 PartyVotingHelper(obj);
             }
@@ -87,40 +87,43 @@ namespace AvalonTracker
 
         private void PartyVotingHelper(object obj)
         {
-            int ApproveVotes = 0;
-            foreach (var player in DataService.ActivePlayers)
+            int approveVotes = 0;
+            foreach (var player in Services.GameService.ActivePlayers)
             {
-                if (DataService.VoteTable[new Tuple<Player, int>(player, DataService.CurrentQuest)])
-                    ApproveVotes++;
+                if (Services.GameService.VoteTable[new Tuple<Player, int, int, int>(player, Services.GameService.CurrentGameId, Services.GameService.CurrentQuest, Services.GameService.VoteTrack)])
+                    approveVotes++;
             }
-            if ((double)ApproveVotes / DataService.ActivePlayers.Count > .5)
+            if ((double)approveVotes / Services.GameService.ActivePlayers.Count > .5)
             {
-                DataService.CurrentGameState = GameState.QuestVoting;
-                ShowControlsForGameState(DataService.CurrentGameState);
-                DataService.ResetVoteTrack();
+                Services.GameService.CurrentGameState = GameState.QuestVoting;
+                ShowControlsForGameState(Services.GameService.CurrentGameState);
+                Services.GameService.ResetVoteTrack();
             }
             else
             {
-                DataService.AdvanceVoteTrack();
+                Services.GameService.AdvanceVoteTrack();
+                Services.GameService.AdvancePartyChooser();
+                Services.GameService.CurrentGameState = GameState.PartySelection;
                 OnPropertyChanged("VoteTrackMessage");
+                OnPropertyChanged("NextStateBtnText");
             }
         }
 
         private void PartySelectionHelper(object obj)
         {
-            foreach (var player in DataService.ActivePlayers)
+            foreach (var player in Services.GameService.ActivePlayers)
             {
-                DataService.VoteTable.Add(new Tuple<Player, int>(player, DataService.CurrentQuest), false);
+                Services.GameService.VoteTable.Add(new Tuple<Player, int, int, int>(player, 0, Services.GameService.CurrentQuest, Services.GameService.VoteTrack), false);
             }
 
-            DataService.CurrentGameState = GameState.PartyVoting;
-            ShowControlsForGameState(DataService.CurrentGameState);
+            Services.GameService.CurrentGameState = GameState.PartyVoting;
+            ShowControlsForGameState(Services.GameService.CurrentGameState);
             OnPropertyChanged("NextStateBtnText");
         }
 
         private bool CanGoToVote(object obj)
         {
-            return DataService.ActiveParty.Count == DataService.GetPartySize(DataService.CurrentQuest);
+            return Services.GameService.ActiveParty.Count == Services.GameService.GetPartySize(Services.GameService.CurrentQuest);
         }
 
         public ICommand GoToVoteCommand { get; set; }
@@ -129,19 +132,19 @@ namespace AvalonTracker
 
         public string RequiredPlayers
         {
-            get { return string.Format("Quest No. {0} requires {1} players", DataService.CurrentQuest, DataService.GetPartySize(DataService.CurrentQuest)); }
+            get { return string.Format("Quest No. {0} requires {1} players", Services.GameService.CurrentQuest, Services.GameService.GetPartySize(Services.GameService.CurrentQuest)); }
         }
 
         public string VoteTrackMessage
         {
-            get { return string.Format("Vote Track: {0}/{1}", DataService.VoteTrack, GlobalConstants.MaxVoteTrack); }
+            get { return string.Format("Vote Track: {0}/{1}", Services.GameService.VoteTrack, GlobalConstants.MaxVoteTrack); }
         }
 
         public string NextStateBtnText
         {
             get
             {
-                switch (DataService.CurrentGameState)
+                switch (Services.GameService.CurrentGameState)
                 {
                     case GameState.PartySelection:
                         return "Propose Party!";

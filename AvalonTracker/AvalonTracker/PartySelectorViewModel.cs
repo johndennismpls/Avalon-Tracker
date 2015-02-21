@@ -14,8 +14,9 @@ namespace AvalonTracker
 {
     public class PartySelectorViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Player> ActivePlayers { get { return DataService.ActivePlayers; } }
-        public ObservableCollection<Player> ActiveParty { get { return DataService.ActiveParty; } }
+        public ObservableCollection<Player> ActivePlayers { get { return Services.GameService.ActivePlayers; } }
+        public ObservableCollection<Player> ActiveParty { get { return Services.GameService.ActiveParty; } }
+
 
         public PartySelectorViewModel()
         {

@@ -56,8 +56,8 @@ namespace AvalonTracker
             RemoveSelectedActivePlayers = new RelayCommand(PerformRemoveSelectedActivePlayers);
         }
 
-        public ObservableCollection<Player> AllPlayers { get { return DataService.AllPlayers; } }
+        public ObservableCollection<Player> AllPlayers { get { return Services.GameService.AllPlayers; } }
 
-        public ObservableCollection<Player> ActivePlayers { get { return DataService.ActivePlayers; } }
+        public ObservableCollection<Player> ActivePlayers { get { return Services.GameService.ActivePlayers; } }
     }
 }
