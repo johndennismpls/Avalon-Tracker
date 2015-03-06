@@ -66,6 +66,7 @@ namespace AvalonTracker
 
         private void PerformStartMatchCommand(object obj)
         {
+            Services.GameService.PartyChooser = Services.GameService.ActivePlayers.First();
             Services.GameService.AdvanceToNextQuest();
             Services.GameService.CurrentGameState = GameState.PartySelection;
             ShowControlsForGameState(Services.GameService.CurrentGameState);
@@ -87,12 +88,14 @@ namespace AvalonTracker
 
         private void PartyVotingHelper(object obj)
         {
+            //count votes
             int approveVotes = 0;
             foreach (var player in Services.GameService.ActivePlayers)
             {
                 if (Services.GameService.VoteTable[new Tuple<Player, int, int, int>(player, Services.GameService.CurrentGameId, Services.GameService.CurrentQuest, Services.GameService.VoteTrack)])
                     approveVotes++;
             }
+            //the vote passes?
             if ((double)approveVotes / Services.GameService.ActivePlayers.Count > .5)
             {
                 Services.GameService.CurrentGameState = GameState.QuestVoting;
@@ -102,11 +105,12 @@ namespace AvalonTracker
             else
             {
                 Services.GameService.AdvanceVoteTrack();
-                Services.GameService.AdvancePartyChooser();
                 Services.GameService.CurrentGameState = GameState.PartySelection;
                 OnPropertyChanged("VoteTrackMessage");
                 OnPropertyChanged("NextStateBtnText");
             }
+            //always advance party chooser.
+            Services.GameService.AdvancePartyChooser();
         }
 
         private void PartySelectionHelper(object obj)

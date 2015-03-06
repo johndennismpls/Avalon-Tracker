@@ -41,18 +41,25 @@ namespace AvalonTracker
         public void AdvancePartyChooser()
         {
             _partyChooserIndex++;
-            if (_partyChooserIndex > ActivePlayers.Count)
+            if (_partyChooserIndex >= ActivePlayers.Count)
             {
                 _partyChooserIndex = 0;
             }
-            OnPropertyChanged("PartyChooser");
+            PartyChooser = ActivePlayers[_partyChooserIndex];
         }
 
+        private Player _partyChooser = null;
         public Player PartyChooser
         {
             get
             {
-                return ActivePlayers.Count > 0 ? ActivePlayers[_partyChooserIndex] : null;
+                return _partyChooser;
+            }
+            set
+            {
+                _partyChooser = value;
+                OnPartyChooserChanged(EventArgs.Empty);
+                OnPropertyChanged();
             }
         }
 
@@ -63,6 +70,16 @@ namespace AvalonTracker
         public void AdvanceVoteTrack()
         {
             VoteTrack++;
+        }
+
+        public event EventHandler PartyChooserChanged;
+        protected virtual void OnPartyChooserChanged(EventArgs e)
+        {
+            EventHandler handler = PartyChooserChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
 
         public void ResetVoteTrack()

@@ -19,9 +19,9 @@
         
         <!--Party Selection & Voting-->
         <StackPanel Name="PartySelectionStackPanel" Visibility="{Binding PartySelectionVisibility}">
-            <local:PartySelectorView/>
+            <local:PartySelectorView x:Name="MyPartySelectorView"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Label Name="LblQuestRequirements" Content="{Binding RequiredPlayers}" FontSize="40" Width="635" Foreground="red" FontStyle="Italic" FontFamily="Old English Text MT"></Label>
+                <Label Name="LblQuestRequirements" Content="{Binding RequiredPlayers}" FontSize="40" Width="635" Foreground="red" FontStyle="Italic" FontFamily="Old English Text MT"></Label>
                 <Label Name="LbLVoteTrack" Content="{Binding VoteTrackMessage}" FontSize ="40" Width="400" Foreground="red"/>
                 <Button Name="BtnGoToVote" Content="{Binding NextStateBtnText}" Command="{Binding GoToVoteCommand}" Width="962" FontStyle="Italic" FontWeight="Bold" FontSize="40"/>
             </StackPanel>

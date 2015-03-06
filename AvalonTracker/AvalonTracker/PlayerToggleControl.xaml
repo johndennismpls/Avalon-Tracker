@@ -6,15 +6,12 @@
              xmlns:local="clr-namespace:AvalonTracker" 
              mc:Ignorable="d" 
              Height="400" Width="320">
-    <UserControl.DataContext>
-        <local:PlayerToggleControlViewModel/>
-    </UserControl.DataContext>
     <Grid>
         <Button Name="BtnPlayer" Command="{Binding SelectPlayerCommand}" BorderThickness="{Binding BorderThickness}" BorderBrush="Red">
             <StackPanel>
-                <Label Content="{Binding thePlayer.Name}" FontSize ="40"/>
-                <Label Name="LblVote" Content="{Binding VoteString}" FontSize="40"></Label>
-                <Ellipse Name="ShapePartyChooser" Width="40" Height="40" Fill="RoyalBlue" Visibility="{Binding IsPartyChooser}" ></Ellipse>
+                <Label Content="{Binding ThePlayer.Name}" FontSize ="40"/>
+                <Label Name="LblVote" Content="{Binding VoteString}" FontSize="40"/>
+                <Ellipse Name="ShapePartyChooser" Width="40" Height="40" Fill="RoyalBlue" Visibility="{Binding IsPartyChooser}"/>
             </StackPanel>
         </Button>
     </Grid>

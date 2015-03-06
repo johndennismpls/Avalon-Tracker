@@ -21,7 +21,7 @@ namespace AvalonTracker
     /// </summary>
     public partial class PlayerToggleControl : UserControl
     {
-        private PlayerToggleControlViewModel _playerToggleControlViewModel = new PlayerToggleControlViewModel();
+        private readonly PlayerToggleControlViewModel _playerToggleControlViewModel = new PlayerToggleControlViewModel();
         public PlayerToggleControl()
         {
             InitializeComponent();
@@ -39,7 +39,7 @@ namespace AvalonTracker
         private static void PropChangedTarget(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var control = (PlayerToggleControl)dependencyObject;
-            control._playerToggleControlViewModel.thePlayer = control.Player;
+            control._playerToggleControlViewModel.ThePlayer = control.Player;
         }
     }
 }
