@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="CharacterSelectionViewModel.cs" />
     <Compile Include="DataService.cs" />
+    <Compile Include="GameService.cs" />
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="NewPlayerView.xaml.cs">
@@ -105,6 +106,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SerializableStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services.cs" />
     <Page Include="CharacterSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

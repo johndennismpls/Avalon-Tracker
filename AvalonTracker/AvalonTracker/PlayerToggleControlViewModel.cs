@@ -54,14 +54,22 @@ namespace AvalonTracker
         }
 
         private string _voteString;
-        public string VoteString { get { return _voteString; } }
+
+        public string VoteString
+        {
+            get { return _voteString; }
+            private set
+            {
+                _voteString = value;
+                OnPropertyChanged();
+            }
+        }
 
         public void ApproveRejectVoting()
         {
             var key = new Tuple<Player, int,int, int>(ThePlayer, Services.GameService.CurrentGameId, Services.GameService.CurrentQuest, Services.GameService.VoteTrack);
             Services.GameService.VoteTable[key] = !Services.GameService.VoteTable[key];
-            _voteString = Services.GameService.VoteTable[key] ? "APPROVE!" : "REJECT!";
-            OnPropertyChanged("VoteString");
+            VoteString = Services.GameService.VoteTable[key] ? "APPROVE!" : "REJECT!";
         }
 
 

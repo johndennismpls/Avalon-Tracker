@@ -63,7 +63,7 @@ namespace AvalonTracker
             }
         }
 
-        public int CurrentGameId { get { return 0; }}
+        public int CurrentGameId { get { return 0; } }
 
         public int VoteTrack { get; private set; }
 
@@ -88,7 +88,7 @@ namespace AvalonTracker
         }
 
         public int CurrentQuest { get; private set; }
-        
+
         public void AdvanceToNextQuest()
         {
             CurrentQuest += 1;
@@ -115,7 +115,7 @@ namespace AvalonTracker
             new CharacterClass(SerializableStrings.Morgana, Allegiance.Bad),
         };
 
-        public IList<CharacterClass> CharacterClasses {get { return characterClasses; }}
+        public IList<CharacterClass> CharacterClasses { get { return characterClasses; } }
 
         public int GetPartySize(int questNumber)
         {
@@ -168,7 +168,7 @@ namespace AvalonTracker
                         case 3:
                             return 4;
                         case 4:
-                        case 5: 
+                        case 5:
                             return 5;
                     }
                     break;
@@ -213,12 +213,6 @@ namespace AvalonTracker
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }  
-    }
-
-
-    public static class Services 
-    {
-        public static GameService GameService = new GameService();
+        }
     }
 }
