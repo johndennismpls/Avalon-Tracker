@@ -18,7 +18,7 @@ namespace AvalonTracker
         {
             BorderThickness = 0;
             InitializeCommands();
-            Services.GameService.PartyChooserChanged += ThePartyChooserChanged;
+            Services.GameService.PartyChooserChanged += PartyChooserChanged;
         }
 
         private Player _thePlayer;
@@ -33,7 +33,7 @@ namespace AvalonTracker
             }
         }
 
-        public void ThePartyChooserChanged(object sender, EventArgs e)
+        public void PartyChooserChanged(object sender, EventArgs e)
         {
             OnPropertyChanged("IsPartyChooser");
         }

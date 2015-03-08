@@ -74,7 +74,6 @@
       <DependentUpon>CharacterSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CharacterSelectionViewModel.cs" />
-    <Compile Include="DataService.cs" />
     <Compile Include="GameService.cs" />
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="MainWindowViewModel.cs" />

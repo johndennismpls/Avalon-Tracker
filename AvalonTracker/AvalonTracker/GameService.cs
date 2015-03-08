@@ -82,6 +82,16 @@ namespace AvalonTracker
             }
         }
 
+        public event EventHandler GameStateChanged;
+        protected virtual void OnGameStateChanged(EventArgs e)
+        {
+            EventHandler handler = GameStateChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
         public void ResetVoteTrack()
         {
             VoteTrack = 0;
@@ -95,7 +105,16 @@ namespace AvalonTracker
         }
 
 
-        public GameState CurrentGameState { get; set; }
+        private GameState _currentGameState;
+        public GameState CurrentGameState
+        {
+            get { return _currentGameState; }
+            set
+            {
+                _currentGameState = value;
+                OnGameStateChanged(EventArgs.Empty);
+            }
+        }
 
         //Player, Game, Quest, VotingRound
         public Dictionary<Tuple<Player, int, int, int>, bool> VoteTable = new Dictionary<Tuple<Player, int, int, int>, bool>();

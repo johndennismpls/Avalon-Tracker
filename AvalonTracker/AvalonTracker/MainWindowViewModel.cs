@@ -16,14 +16,44 @@ namespace AvalonTracker
     {
         public MainWindowViewModel()
         {
-            ShowControlsForGameState(Services.GameService.CurrentGameState);
             InitializeCommands();
+
+            Services.GameService.GameStateChanged += GameStateChanged;
+
+            Services.GameService.CurrentGameState = GameState.PlayerSelection;
         }
 
         private void InitializeCommands()
         {
             StartMatchCommand = new RelayCommand(PerformStartMatchCommand, CanPerformStartMatchCommand);
             GoToVoteCommand = new RelayCommand(PerformGoToVoteCommand, CanGoToVote);
+        }
+
+        public void GameStateChanged(object sender, EventArgs e)
+        {
+            switch (Services.GameService.CurrentGameState)
+            {
+                case GameState.PlayerSelection:
+                    PlayerSelectionVisibility = Visibility.Visible;
+                    PartySelectionVisibility = Visibility.Hidden;
+                    QuestResultsVisibility = Visibility.Hidden;
+                    break;
+                case GameState.PartySelection:
+                    PlayerSelectionVisibility = Visibility.Hidden;
+                    PartySelectionVisibility = Visibility.Visible;
+                    QuestResultsVisibility = Visibility.Hidden;
+                    break;
+                case GameState.PartyVoting:
+                    PlayerSelectionVisibility = Visibility.Hidden;
+                    PartySelectionVisibility = Visibility.Visible;
+                    QuestResultsVisibility = Visibility.Hidden;
+                    break;
+                case GameState.QuestVoting:
+                    PlayerSelectionVisibility = Visibility.Hidden;
+                    PartySelectionVisibility = Visibility.Hidden;
+                    QuestResultsVisibility = Visibility.Visible;
+                    break;
+            }
         }
 
         private Visibility _playerSelectionVisibility;
@@ -69,7 +99,6 @@ namespace AvalonTracker
             Services.GameService.PartyChooser = Services.GameService.ActivePlayers.First();
             Services.GameService.AdvanceToNextQuest();
             Services.GameService.CurrentGameState = GameState.PartySelection;
-            ShowControlsForGameState(Services.GameService.CurrentGameState);
             OnPropertyChanged("RequiredPlayers");
             OnPropertyChanged("NextStateBtnText");
         }
@@ -99,7 +128,6 @@ namespace AvalonTracker
             if ((double)approveVotes / Services.GameService.ActivePlayers.Count > .5)
             {
                 Services.GameService.CurrentGameState = GameState.QuestVoting;
-                ShowControlsForGameState(Services.GameService.CurrentGameState);
                 Services.GameService.ResetVoteTrack();
             }
             else
@@ -121,7 +149,6 @@ namespace AvalonTracker
             }
 
             Services.GameService.CurrentGameState = GameState.PartyVoting;
-            ShowControlsForGameState(Services.GameService.CurrentGameState);
             OnPropertyChanged("NextStateBtnText");
         }
 
@@ -159,34 +186,6 @@ namespace AvalonTracker
             }
         }
          
-
-        private void ShowControlsForGameState(GameState gameState)
-        {
-            switch (gameState)
-            {
-                case GameState.PlayerSelection:
-                    PlayerSelectionVisibility = Visibility.Visible;
-                    PartySelectionVisibility = Visibility.Hidden;
-                    QuestResultsVisibility = Visibility.Hidden;
-                    break;
-                case GameState.PartySelection:
-                    PlayerSelectionVisibility = Visibility.Hidden;
-                    PartySelectionVisibility = Visibility.Visible;
-                    QuestResultsVisibility = Visibility.Hidden;
-                    break;
-                case GameState.PartyVoting:
-                    PlayerSelectionVisibility = Visibility.Hidden;
-                    PartySelectionVisibility = Visibility.Visible;
-                    QuestResultsVisibility = Visibility.Hidden;
-                    break;
-                case GameState.QuestVoting:
-                    PlayerSelectionVisibility = Visibility.Hidden;
-                    PartySelectionVisibility = Visibility.Hidden;
-                    QuestResultsVisibility = Visibility.Visible;
-                    break;
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
