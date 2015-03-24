@@ -19,6 +19,7 @@ namespace AvalonTracker
             BorderThickness = 0;
             InitializeCommands();
             Services.GameService.PartyChooserChanged += PartyChooserChanged;
+            Services.GameService.GameStateChanged += GameStateChanged;
         }
 
         private Player _thePlayer;
@@ -36,6 +37,29 @@ namespace AvalonTracker
         public void PartyChooserChanged(object sender, EventArgs e)
         {
             OnPropertyChanged("IsPartyChooser");
+            VoteString = "";
+            OnPropertyChanged("VoteString");
+
+        }
+
+        public void GameStateChanged(object sender, EventArgs e)
+        {
+            switch (Services.GameService.CurrentGameState)
+            {
+                case GameState.PlayerSelection:
+                    break;
+                case GameState.PartySelection:
+                    break;
+                case GameState.PartyVoting:
+                    ApproveRejectVoting();
+                    break;
+                case GameState.QuestVoting:
+                    break;
+                case GameState.BadGuysWin:
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         public int BorderThickness { get; private set; }
@@ -65,11 +89,16 @@ namespace AvalonTracker
             }
         }
 
-        public void ApproveRejectVoting()
+        private void ApproveRejectVoting()
         {
-            var key = new Tuple<Player, int,int, int>(ThePlayer, Services.GameService.CurrentGameId, Services.GameService.CurrentQuest, Services.GameService.VoteTrack);
-            Services.GameService.VoteTable[key] = !Services.GameService.VoteTable[key];
-            VoteString = Services.GameService.VoteTable[key] ? "APPROVE!" : "REJECT!";
+            if (ThePlayer != null)
+            {
+                var key = new Tuple<Player, int, int, int>(ThePlayer, Services.GameService.CurrentGameId,
+                    Services.GameService.CurrentQuest, Services.GameService.VoteTrack);
+                Services.GameService.VoteTable[key] = !Services.GameService.VoteTable[key];
+                VoteString = Services.GameService.VoteTable[key] ? "APPROVE!" : "REJECT!";
+                OnPropertyChanged("VoteString");
+            }
         }
 
 

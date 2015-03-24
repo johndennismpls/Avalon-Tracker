@@ -16,6 +16,10 @@ namespace AvalonTracker
         PartySelection,
         PartyVoting,
         QuestVoting,
+        BadGuysWin,
+        GoodGuysWin,
+        AttemptAssassination,
+        RevealCharactes,
     }
 
 
@@ -70,6 +74,10 @@ namespace AvalonTracker
         public void AdvanceVoteTrack()
         {
             VoteTrack++;
+            if (VoteTrack > GlobalConstants.MaxVoteTrack)
+            {
+                CurrentGameState = GameState.BadGuysWin;
+            }
         }
 
         public event EventHandler PartyChooserChanged;
