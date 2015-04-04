@@ -74,10 +74,7 @@ namespace AvalonTracker
         public void AdvanceVoteTrack()
         {
             VoteTrack++;
-            if (VoteTrack > GlobalConstants.MaxVoteTrack)
-            {
-                CurrentGameState = GameState.BadGuysWin;
-            }
+            CurrentGameState = VoteTrack > GlobalConstants.MaxVoteTrack ? GameState.BadGuysWin : GameState.PartySelection;
         }
 
         public event EventHandler PartyChooserChanged;

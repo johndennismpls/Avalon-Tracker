@@ -37,26 +37,31 @@ namespace AvalonTracker
                     PlayerSelectionVisibility = Visibility.Visible;
                     PartySelectionVisibility = Visibility.Hidden;
                     QuestResultsVisibility = Visibility.Hidden;
+                    BadGuysWinVisibility = Visibility.Hidden;
                     break;
                 case GameState.PartySelection:
                     PlayerSelectionVisibility = Visibility.Hidden;
                     PartySelectionVisibility = Visibility.Visible;
                     QuestResultsVisibility = Visibility.Hidden;
+                    BadGuysWinVisibility = Visibility.Hidden;
                     break;
                 case GameState.PartyVoting:
                     PlayerSelectionVisibility = Visibility.Hidden;
                     PartySelectionVisibility = Visibility.Visible;
                     QuestResultsVisibility = Visibility.Hidden;
+                    BadGuysWinVisibility = Visibility.Hidden;
                     break;
                 case GameState.QuestVoting:
                     PlayerSelectionVisibility = Visibility.Hidden;
                     PartySelectionVisibility = Visibility.Hidden;
                     QuestResultsVisibility = Visibility.Visible;
+                    BadGuysWinVisibility = Visibility.Hidden;
                     break;
                 case GameState.BadGuysWin:
                     PlayerSelectionVisibility = Visibility.Hidden;
                     PartySelectionVisibility = Visibility.Hidden;
                     QuestResultsVisibility = Visibility.Hidden;
+                    BadGuysWinVisibility = Visibility.Visible;
                     break;
                 default:
                     throw new NotSupportedException();
@@ -66,6 +71,17 @@ namespace AvalonTracker
         private Visibility _playerSelectionVisibility;
         private Visibility _partySelectionVisibility;
         private Visibility _questResultsVisibility;
+        private Visibility _badGuysWinVisibility;
+
+        public Visibility BadGuysWinVisibility
+        {
+            get { return _badGuysWinVisibility; }
+            private set
+            {
+                _badGuysWinVisibility = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Visibility QuestResultsVisibility
         {
@@ -140,7 +156,6 @@ namespace AvalonTracker
             else
             {
                 Services.GameService.AdvanceVoteTrack();
-                Services.GameService.CurrentGameState = GameState.PartySelection;
                 OnPropertyChanged("VoteTrackMessage");
                 OnPropertyChanged("NextStateBtnText");
             }
