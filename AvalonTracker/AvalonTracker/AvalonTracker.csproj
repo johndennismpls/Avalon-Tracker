@@ -91,6 +91,9 @@
     </Compile>
     <Compile Include="PlayerToggleControlViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="QuestCardView.xaml.cs">
+      <DependentUpon>QuestCardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="QuestResultsViewModel.cs" />
     <Compile Include="QuestResultView.xaml.cs">
       <DependentUpon>QuestResultView.xaml</DependentUpon>
@@ -106,6 +109,7 @@
       <DependentUpon>SerializableStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Services.cs" />
+    <Compile Include="QuestCardViewModel.cs" />
     <Page Include="CharacterSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -135,6 +139,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlayerToggleControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QuestCardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

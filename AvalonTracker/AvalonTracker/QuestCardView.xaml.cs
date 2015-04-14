@@ -16,16 +16,15 @@ using System.Windows.Shapes;
 namespace AvalonTracker
 {
     /// <summary>
-    /// Interaction logic for QuestResultView.xaml
+    /// Interaction logic for QuestCardView.xaml
     /// </summary>
-    public partial class QuestResultView : UserControl
+    public partial class QuestCardView : UserControl
     {
-        private readonly QuestResultsViewModel _questResultsViewModel = new QuestResultsViewModel();
-
-        public QuestResultView()
+        public QuestCardView()
         {
-            DataContext = _questResultsViewModel;
             InitializeComponent();
+            DataContext = _questCardViewModel;
         }
+        private readonly QuestCardViewModel _questCardViewModel = new QuestCardViewModel();
     }
 }

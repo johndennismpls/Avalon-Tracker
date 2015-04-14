@@ -4,20 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AvalonTracker" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.DataContext>
-        <local:QuestResultsViewModel/>
-    </UserControl.DataContext>
+             mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Horizontal" Margin="0,0,-204,10">
-            <Button Content="{Binding cardStrings[0]}" HorizontalAlignment="Left" Width="100" Height="150" Margin="0,75" Command="{Binding SuccessFailCommand}" CommandParameter="0"/>
-            <Button Content="Button" HorizontalAlignment="Left" Width="100" Height="150" Margin="0,75" Command="{Binding SuccessFailCommand}" CommandParameter="1"/>
-            <Button Content="Button" HorizontalAlignment="Left" Width="100" Height="150" Margin="0,75" Command="{Binding SuccessFailCommand}" CommandParameter="2"/>
-            <Button Content="Button" HorizontalAlignment="Left" Width="100" Height="150" Margin="0,75" Command="{Binding SuccessFailCommand}" CommandParameter="3"/>
-            <Button Content="Button" HorizontalAlignment="Left" Width="100" Height="150" Margin="0,75" Command="{Binding SuccessFailCommand}" CommandParameter="4"/>
-
-        </StackPanel>       
-
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <local:QuestCardView x:Name="Card1"/>
+                <local:QuestCardView x:Name="Card2"/>
+                <local:QuestCardView x:Name="Card3"/>
+                <local:QuestCardView x:Name="Card4"/>
+                <local:QuestCardView x:Name="Card5"/>
+            </StackPanel>
+            <Button Content="Submit Results!" Command="{Binding SubmitResultsCommand}"></Button>
+        </StackPanel>
     </Grid>
 </UserControl>
