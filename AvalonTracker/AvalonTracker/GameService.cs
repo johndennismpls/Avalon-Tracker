@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +33,9 @@ namespace AvalonTracker
 
     public class GameService : INotifyPropertyChanged
     {
+
+        private readonly string avalondbFile = Path.Combine(Path.GetTempPath(), "Avalon.sqlite");
+
          // Holds our connection with the database
         SQLiteConnection m_dbConnection;
 
@@ -43,13 +48,16 @@ namespace AvalonTracker
         // Creates an empty database file
         public void CreateNewDataSource()
         {
-            SQLiteConnection.CreateFile("MyDatabase.sqlite");
+            if (!File.Exists(avalondbFile))
+            {
+                SQLiteConnection.CreateFile(avalondbFile);
+            }
         }
 
         // Creates a connection with our database file.
         void connectToDatabase()
         {
-            m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
+            m_dbConnection = new SQLiteConnection("Data Source=" + avalondbFile + ";Version=3;");
             m_dbConnection.Open();
         }
 
