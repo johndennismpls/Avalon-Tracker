@@ -27,5 +27,10 @@ namespace AvalonTracker
             DataContext = _questResultsViewModel;
             InitializeComponent();
         }
+
+        private void ListBox_MouseDown(object sender, EventArgs e)
+        {
+            _questResultsViewModel.SelectedCardChanged(sender, e);
+        }
     }
 }

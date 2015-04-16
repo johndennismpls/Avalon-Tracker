@@ -6,14 +6,28 @@
              xmlns:local="clr-namespace:AvalonTracker" 
              mc:Ignorable="d">
     <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <local:QuestCardView x:Name="Card1"/>
-                <local:QuestCardView x:Name="Card2"/>
-                <local:QuestCardView x:Name="Card3"/>
-                <local:QuestCardView x:Name="Card4"/>
-                <local:QuestCardView x:Name="Card5"/>
-            </StackPanel>
+        <StackPanel HorizontalAlignment="Center">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                     HorizontalContentAlignment="Center"
+                     ItemsSource="{Binding QuestCards}"
+                     SelectionChanged="ListBox_MouseDown"
+                     >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel d:DataContext="{d:DesignInstance local:QuestCard}" >
+                            <Border Background="Black" Margin="5,5,5,5" Width="40" Height="90" >
+                                <TextBlock Text ="{Binding PassFailStatus}" Foreground="Yellow" FontSize="20"/>
+                            </Border>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate> 
+                </ListBox.ItemsPanel>
+            </ListBox>
+            
             <Button Content="Submit Results!" Command="{Binding SubmitResultsCommand}"></Button>
         </StackPanel>
     </Grid>

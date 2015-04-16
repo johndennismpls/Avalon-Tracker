@@ -108,7 +108,14 @@ namespace AvalonTracker
         {
             CurrentQuest += 1;
         }
+    
+        //Game, Quest, Results
+        private Dictionary<Tuple<int, int>, IList<bool>> questResults = new Dictionary<Tuple<int, int>, IList<bool>>();
 
+        public void SumbitQuestResults(IList<bool> results)
+        {
+            questResults.Add(new Tuple<int, int>(0, CurrentQuest), results);
+        }
 
         private GameState _currentGameState;
         public GameState CurrentGameState
