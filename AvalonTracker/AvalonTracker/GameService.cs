@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AvalonTracker.Annotations;
+using System.Data.SQLite;
 
 namespace AvalonTracker
 {
+
+
+
+
     public enum GameState
     {
         PlayerSelection,
@@ -25,6 +31,30 @@ namespace AvalonTracker
 
     public class GameService : INotifyPropertyChanged
     {
+         // Holds our connection with the database
+        SQLiteConnection m_dbConnection;
+
+        public GameService()
+        {
+            CreateNewDataSource();
+            connectToDatabase();
+        }
+
+        // Creates an empty database file
+        public void CreateNewDataSource()
+        {
+            SQLiteConnection.CreateFile("MyDatabase.sqlite");
+        }
+
+        // Creates a connection with our database file.
+        void connectToDatabase()
+        {
+            m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
+            m_dbConnection.Open();
+        }
+
+
+
         public ObservableCollection<Player> AllPlayers = new ObservableCollection<Player>()
         {
             new Player(){Name = "John"},
@@ -115,6 +145,8 @@ namespace AvalonTracker
         public void SumbitQuestResults(IList<bool> results)
         {
             questResults.Add(new Tuple<int, int>(0, CurrentQuest), results);
+
+            CurrentGameState = GameState.PartySelection;
         }
 
         private GameState _currentGameState;
