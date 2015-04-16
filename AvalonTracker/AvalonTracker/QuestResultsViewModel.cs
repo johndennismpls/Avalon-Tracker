@@ -44,7 +44,12 @@ namespace AvalonTracker
 
         private void PerformSubmitResults(object obj)
         {
-            //Services.GameService.SumbitQuestResults();
+            var results = new List<bool>();
+            foreach (var questCard in QuestCards)
+            {
+                results.Add(questCard.PassQuest);
+            }
+            Services.GameService.SumbitQuestResults(results);
         }
 
         public ICommand SubmitResultsCommand;
@@ -76,6 +81,10 @@ namespace AvalonTracker
     public class QuestCard : INotifyPropertyChanged
     {
         private bool _passQuest;
+        public bool PassQuest 
+        {
+            get { return _passQuest; }
+        }
 
         public void TogglePassFail()
         {

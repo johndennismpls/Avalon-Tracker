@@ -28,7 +28,7 @@
                 </ListBox.ItemsPanel>
             </ListBox>
             
-            <Button Content="Submit Results!" Command="{Binding SubmitResultsCommand}"></Button>
+            <Button Content="Submit Results!" Click="ButtonBase_OnClick"/>
         </StackPanel>
     </Grid>
 </UserControl>

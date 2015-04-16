@@ -29,8 +29,13 @@ namespace AvalonTracker
         }
 
         private void ListBox_MouseDown(object sender, EventArgs e)
-        {
+        {   
             _questResultsViewModel.SelectedCardChanged(sender, e);
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            _questResultsViewModel.SubmitResultsCommand.Execute(null);
         }
     }
 }
