@@ -10,7 +10,7 @@ namespace AvalonTracker
 {
     public class CharacterSelectionViewModel
     {
-        IList<CharacterClass> _activeCharacterClasses = new List<CharacterClass>();
+       // IList<CharacterClass> _activeCharacterClasses = new List<CharacterClass>();
 
         public CharacterSelectionViewModel()
         {
@@ -19,24 +19,24 @@ namespace AvalonTracker
 
         private void PerformAddRemoveCharacterCommand(object characterName)
         {
-            var characterNamelocal = characterName as string;
-            for (var j = 0; j < _activeCharacterClasses.Count; j++)
-            {
-                if (string.Equals(characterNamelocal, _activeCharacterClasses[j].Name))
-                {
-                    _activeCharacterClasses.Remove(_activeCharacterClasses[j]);
-                    return;
-                }
-            }
-            for (var i = 0; i < Services.GameService.CharacterClasses.Count; i++)
-            {
+            //var characterNamelocal = characterName as string;
+            //for (var j = 0; j < _activeCharacterClasses.Count; j++)
+            //{
+            //    if (string.Equals(characterNamelocal, _activeCharacterClasses[j].Name))
+            //    {
+            //        _activeCharacterClasses.Remove(_activeCharacterClasses[j]);
+            //        return;
+            //    }
+            //}
+            //for (var i = 0; i < Services.GameService.CharacterClasses.Count; i++)
+            //{
 
-                if (string.Equals(characterNamelocal, Services.GameService.CharacterClasses[i].Name))
-                {
-                    _activeCharacterClasses.Add(Services.GameService.CharacterClasses[i]);
-                    return;
-                }
-            }
+            //    if (string.Equals(characterNamelocal, Services.GameService.CharacterClasses[i].Name))
+            //    {
+            //        _activeCharacterClasses.Add(Services.GameService.CharacterClasses[i]);
+            //        return;
+            //    }
+            //}
         }
 
         public ICommand AddRemoveCharacterCommand { get; private set; }

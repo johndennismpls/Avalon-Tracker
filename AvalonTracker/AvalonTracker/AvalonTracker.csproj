@@ -49,12 +49,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.SQLite">
       <HintPath>SQLite\System.Data.SQLite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -72,11 +81,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Character.cs" />
+    <Compile Include="ActivePlayer.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AvalonModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AvalonModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AvalonModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AvalonModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AvalonModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Character.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CharacterSelectionView.xaml.cs">
       <DependentUpon>CharacterSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CharacterSelectionViewModel.cs" />
+    <Compile Include="Game.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GameService.cs" />
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="MainWindowViewModel.cs" />
@@ -84,16 +116,27 @@
       <DependentUpon>NewPlayerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewPlayerViewModel.cs" />
+    <Compile Include="Party.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="PartySelectorView.xaml.cs">
       <DependentUpon>PartySelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PartySelectorViewModel.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="PartyVote.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Player.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="PlayerToggleControl.xaml.cs">
       <DependentUpon>PlayerToggleControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlayerToggleControlViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Quest.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="QuestCardView.xaml.cs">
       <DependentUpon>QuestCardView.xaml</DependentUpon>
     </Compile>
@@ -101,11 +144,17 @@
     <Compile Include="QuestResultView.xaml.cs">
       <DependentUpon>QuestResultView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="QuestVote.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="RelayCommand.cs" />
     <Compile Include="PlayerSelectionControl.xaml.cs">
       <DependentUpon>PlayerSelectionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlayerSelectionViewModel.cs" />
+    <Compile Include="RevealedCharacter.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SerializableStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -176,6 +225,24 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SerializableStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="AvalonModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AvalonModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="AvalonModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AvalonModel.Context.cs</LastGenOutput>
+      <DependentUpon>AvalonModel.edmx</DependentUpon>
+    </None>
+    <None Include="AvalonModel.edmx.diagram">
+      <DependentUpon>AvalonModel.edmx</DependentUpon>
+    </None>
+    <None Include="AvalonModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AvalonModel.cs</LastGenOutput>
+      <DependentUpon>AvalonModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -213,6 +280,12 @@
     <Resource Include="Resources\PartyMember.JPG" />
     <Resource Include="Resources\Reject.JPG" />
     <Resource Include="Resources\SucessCard.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AvalonModel.edmx.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

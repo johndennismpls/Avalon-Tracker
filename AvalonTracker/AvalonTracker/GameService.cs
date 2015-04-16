@@ -171,22 +171,22 @@ namespace AvalonTracker
         //Player, Game, Quest, VotingRound
         public Dictionary<Tuple<Player, int, int, int>, bool> VoteTable = new Dictionary<Tuple<Player, int, int, int>, bool>();
 
-        private List<CharacterClass> characterClasses = new List<CharacterClass>()
-        {
-            //Good guys
-            new CharacterClass(SerializableStrings.LoyalServantOfArthur, Allegiance.Good),
-            new CharacterClass(SerializableStrings.Percival, Allegiance.Good),
-            new CharacterClass(SerializableStrings.Merlin, Allegiance.Good),
+        //private List<CharacterClass> characterClasses = new List<CharacterClass>()
+        //{
+        //    //Good guys
+        //    new CharacterClass(SerializableStrings.LoyalServantOfArthur, Allegiance.Good),
+        //    new CharacterClass(SerializableStrings.Percival, Allegiance.Good),
+        //    new CharacterClass(SerializableStrings.Merlin, Allegiance.Good),
 
-            //bad guys
-            new CharacterClass(SerializableStrings.MinionOfMordred, Allegiance.Bad),
-            new CharacterClass(SerializableStrings.Assassin, Allegiance.Bad),
-            new CharacterClass(SerializableStrings.Mordred, Allegiance.Bad),
-            new CharacterClass(SerializableStrings.Oberon, Allegiance.Bad),
-            new CharacterClass(SerializableStrings.Morgana, Allegiance.Bad),
-        };
+        //    //bad guys
+        //    new CharacterClass(SerializableStrings.MinionOfMordred, Allegiance.Bad),
+        //    new CharacterClass(SerializableStrings.Assassin, Allegiance.Bad),
+        //    new CharacterClass(SerializableStrings.Mordred, Allegiance.Bad),
+        //    new CharacterClass(SerializableStrings.Oberon, Allegiance.Bad),
+        //    new CharacterClass(SerializableStrings.Morgana, Allegiance.Bad),
+        //};
 
-        public IList<CharacterClass> CharacterClasses { get { return characterClasses; } }
+        //public IList<CharacterClass> CharacterClasses { get { return characterClasses; } }
 
         public int GetPartySize(int questNumber)
         {

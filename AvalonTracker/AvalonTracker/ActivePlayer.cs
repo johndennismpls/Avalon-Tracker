@@ -12,11 +12,15 @@ namespace AvalonTracker
     using System;
     using System.Collections.Generic;
     
-    public partial class Player
+    public partial class ActivePlayer
     {
-        public int Id { get; set; }
+        public int PlayerId { get; set; }
+        public int GameId { get; set; }
         public string Name { get; set; }
     
-        public virtual ActivePlayer ActivePlayers { get; set; }
+        public virtual Game Game { get; set; }
+        public virtual Player Player { get; set; }
+        public virtual PartyVote PartyVotes { get; set; }
+        public virtual Party Party { get; set; }
     }
 }

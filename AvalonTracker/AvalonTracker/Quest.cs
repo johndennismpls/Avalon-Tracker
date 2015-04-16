@@ -12,11 +12,16 @@ namespace AvalonTracker
     using System;
     using System.Collections.Generic;
     
-    public partial class Player
+    public partial class Quest
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public Quest()
+        {
+            this.QuestVote = new HashSet<QuestVote>();
+        }
     
-        public virtual ActivePlayer ActivePlayers { get; set; }
+        public int Id { get; set; }
+    
+        public virtual Party Party { get; set; }
+        public virtual ICollection<QuestVote> QuestVote { get; set; }
     }
 }
