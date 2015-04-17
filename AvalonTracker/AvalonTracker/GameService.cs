@@ -34,45 +34,41 @@ namespace AvalonTracker
     public class GameService : INotifyPropertyChanged
     {
 
-        private readonly string avalondbFile = Path.Combine(Path.GetTempPath(), "Avalon.sqlite");
-
-         // Holds our connection with the database
-        SQLiteConnection m_dbConnection;
-
         public GameService()
         {
-            CreateNewDataSource();
-            connectToDatabase();
         }
 
-        // Creates an empty database file
-        public void CreateNewDataSource()
+        private ObservableCollection<Player> _allPlayers = new ObservableCollection<Player>();
+
+        public ObservableCollection<Player> AllPlayers
         {
-            if (!File.Exists(avalondbFile))
+            get { return _allPlayers; }
+        }
+
+        public void LoadData()
+        {
+            using (var context = new AvalonModelContainer())
             {
-                SQLiteConnection.CreateFile(avalondbFile);
+                var players = (from p in context.Players 
+                               select p);
+                foreach (var player in players)
+                {
+                    AllPlayers.Add(player);
+                }
+            }  
+        }
+
+        public void AddNewPlayer(string name)
+        {
+            var p = new Player() {Name = name};
+
+            using (var context = new AvalonModelContainer())
+            {
+                context.Players.Add(p);
+                context.SaveChanges();
             }
+            AllPlayers.Add(p);
         }
-
-        // Creates a connection with our database file.
-        void connectToDatabase()
-        {
-            m_dbConnection = new SQLiteConnection("Data Source=" + avalondbFile + ";Version=3;");
-            m_dbConnection.Open();
-        }
-
-
-
-        public ObservableCollection<Player> AllPlayers = new ObservableCollection<Player>()
-        {
-            new Player(){Name = "John"},
-            new Player(){Name = "Mike"},
-            new Player(){Name = "Mark"},
-            new Player(){Name = "James"},
-            new Player(){Name = "Matt"},
-            new Player(){Name = "Laura"},
-            new Player(){Name = "Ben"},
-        };
 
         public ObservableCollection<Player> ActivePlayers = new ObservableCollection<Player>();
 

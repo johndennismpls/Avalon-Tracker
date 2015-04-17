@@ -15,6 +15,7 @@
             <local:PlayerSelectionView/>
             <local:NewPlayerView/>
             <Button Name="BtnStartMatch" Command="{Binding StartMatchCommand}" Margin="50,50,50,50" FontSize="50" Content="START MATCH!"/>
+            <Button Name="BtnLoadData" Command="{Binding LoadDataCommand}" Content="Load Data"/>
         </StackPanel>
         
         <!--Party Selection & Voting-->

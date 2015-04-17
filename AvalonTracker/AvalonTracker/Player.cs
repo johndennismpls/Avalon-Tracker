@@ -16,7 +16,5 @@ namespace AvalonTracker
     {
         public int Id { get; set; }
         public string Name { get; set; }
-    
-        public virtual ActivePlayer ActivePlayers { get; set; }
     }
 }

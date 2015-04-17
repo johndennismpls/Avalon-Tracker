@@ -27,6 +27,7 @@ namespace AvalonTracker
         {
             StartMatchCommand = new RelayCommand(PerformStartMatchCommand, CanPerformStartMatchCommand);
             GoToVoteCommand = new RelayCommand(PerformGoToVoteCommand, CanGoToVote);
+            LoadDataCommand = new RelayCommand(PerformLoadDataCommand);
         }
 
         public void GameStateChanged(object sender, EventArgs e)
@@ -138,6 +139,11 @@ namespace AvalonTracker
             }
         }
 
+        private void PerformLoadDataCommand(object obj)
+        {
+            Services.GameService.LoadData();
+        }
+
         private void PartyVotingHelper(object obj)
         {
             //count votes
@@ -181,7 +187,8 @@ namespace AvalonTracker
 
         public ICommand GoToVoteCommand { get; set; }
         public ICommand StartMatchCommand { get; private set; }
-
+        public ICommand LoadDataCommand { get; private set; }
+        
 
         public string RequiredPlayers
         {

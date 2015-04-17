@@ -16,9 +16,10 @@ namespace AvalonTracker
             InitializeCommands();
         }
 
-        private void PerformAddPlayer(object name)
+        private void PerformAddPlayer(object o)
         {
-            Services.GameService.AllPlayers.Add(new Player() { Name = NewName });
+            //Services.GameService.AllPlayers.Add(new Player() { Name = NewName });
+            Services.GameService.AddNewPlayer(NewName);
         }
 
         private bool CanAddPlayer(object name)

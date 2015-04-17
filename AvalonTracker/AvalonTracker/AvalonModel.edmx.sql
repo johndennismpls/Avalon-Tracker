@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/16/2015 18:56:22
+-- Date Created: 04/16/2015 19:16:52
 -- Generated from EDMX file: E:\NewAvalonTracker\Avalon-Tracker\AvalonTracker\AvalonTracker\AvalonModel.edmx
 -- --------------------------------------------------
 
@@ -84,6 +84,7 @@ CREATE TABLE [dbo].[ActivePlayers] (
     [GameId] int  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [Game_Id] int  NOT NULL,
+    [Player_Id] int  NOT NULL,
     [PartyVotes_PlayerId] int  NOT NULL,
     [PartyVotes_PartyId] int  NOT NULL,
     [PartyVotes_QuestId] int  NOT NULL,
@@ -134,9 +135,7 @@ GO
 -- Creating table 'Players'
 CREATE TABLE [dbo].[Players] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(max)  NOT NULL,
-    [ActivePlayers_PlayerId] int  NOT NULL,
-    [ActivePlayers_GameId] int  NOT NULL
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -271,18 +270,18 @@ ON [dbo].[ActivePlayers]
     ([Game_Id]);
 GO
 
--- Creating foreign key on [ActivePlayers_PlayerId], [ActivePlayers_GameId] in table 'Players'
-ALTER TABLE [dbo].[Players]
+-- Creating foreign key on [Player_Id] in table 'ActivePlayers'
+ALTER TABLE [dbo].[ActivePlayers]
 ADD CONSTRAINT [FK_PlayerActivePlayer]
-    FOREIGN KEY ([ActivePlayers_PlayerId], [ActivePlayers_GameId])
-    REFERENCES [dbo].[ActivePlayers]
-        ([PlayerId], [GameId])
+    FOREIGN KEY ([Player_Id])
+    REFERENCES [dbo].[Players]
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlayerActivePlayer'
 CREATE INDEX [IX_FK_PlayerActivePlayer]
-ON [dbo].[Players]
-    ([ActivePlayers_PlayerId], [ActivePlayers_GameId]);
+ON [dbo].[ActivePlayers]
+    ([Player_Id]);
 GO
 
 -- Creating foreign key on [PartyVotes_PlayerId], [PartyVotes_PartyId], [PartyVotes_QuestId] in table 'ActivePlayers'

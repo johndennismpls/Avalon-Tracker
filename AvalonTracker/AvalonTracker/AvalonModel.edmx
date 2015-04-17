@@ -57,6 +57,7 @@
     <Property Name="GameId" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Game_Id" Type="int" Nullable="false" />
+    <Property Name="Player_Id" Type="int" Nullable="false" />
     <Property Name="PartyVotes_PlayerId" Type="int" Nullable="false" />
     <Property Name="PartyVotes_PartyId" Type="int" Nullable="false" />
     <Property Name="PartyVotes_QuestId" Type="int" Nullable="false" />
@@ -110,8 +111,6 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ActivePlayers_PlayerId" Type="int" Nullable="false" />
-    <Property Name="ActivePlayers_GameId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Characters">
     <Key>
@@ -179,16 +178,14 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="PlayerActivePlayer">
-    <End Role="Player" Type="AvalonModel.Store.Players" Multiplicity="*" />
-    <End Role="ActivePlayer" Type="AvalonModel.Store.ActivePlayers" Multiplicity="1" />
+    <End Role="Player" Type="AvalonModel.Store.Players" Multiplicity="1" />
+    <End Role="ActivePlayer" Type="AvalonModel.Store.ActivePlayers" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="ActivePlayer">
-        <PropertyRef Name="PlayerId" />
-        <PropertyRef Name="GameId" />
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Player">
-        <PropertyRef Name="ActivePlayers_PlayerId" />
-        <PropertyRef Name="ActivePlayers_GameId" />
+      <Dependent Role="ActivePlayer">
+        <PropertyRef Name="Player_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -354,7 +351,6 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <NavigationProperty Name="ActivePlayers" Relationship="AvalonModel.PlayerActivePlayer" FromRole="Player" ToRole="ActivePlayer" />
         </EntityType>
         <EntityType Name="Character">
           <Key>
@@ -375,7 +371,7 @@
         </Association>
         <Association Name="PlayerActivePlayer">
           <End Type="AvalonModel.Player" Role="Player" Multiplicity="1" />
-          <End Type="AvalonModel.ActivePlayer" Role="ActivePlayer" Multiplicity="1" />
+          <End Type="AvalonModel.ActivePlayer" Role="ActivePlayer" Multiplicity="0..1" />
         </Association>
         <Association Name="ActivePlayerPartyVote">
           <End Type="AvalonModel.ActivePlayer" Role="ActivePlayer" Multiplicity="1" />
@@ -501,13 +497,13 @@
         <ScalarProperty Name="GameId" ColumnName="GameId" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="PlayerActivePlayer" TypeName="AvalonModel.PlayerActivePlayer" StoreEntitySet="Players">
-      <EndProperty Name="ActivePlayer">
-        <ScalarProperty Name="PlayerId" ColumnName="ActivePlayers_PlayerId" />
-        <ScalarProperty Name="GameId" ColumnName="ActivePlayers_GameId" />
-      </EndProperty>
+    <AssociationSetMapping Name="PlayerActivePlayer" TypeName="AvalonModel.PlayerActivePlayer" StoreEntitySet="ActivePlayers">
       <EndProperty Name="Player">
-        <ScalarProperty Name="Id" ColumnName="Id" />
+        <ScalarProperty Name="Id" ColumnName="Player_Id" />
+      </EndProperty>
+      <EndProperty Name="ActivePlayer">
+        <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+        <ScalarProperty Name="GameId" ColumnName="GameId" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="ActivePlayerPartyVote" TypeName="AvalonModel.ActivePlayerPartyVote" StoreEntitySet="ActivePlayers">
