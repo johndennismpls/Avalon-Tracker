@@ -232,12 +232,12 @@ namespace AvalonTracker
                 //quest failed!
                 _questFailureTotal++;
             }
-            if (_questFailureTotal < 3 && CurrentQuestPhase < GlobalConstants.MaxQuests)
+            if (_questFailureTotal < 3 && CurrentQuestPhase - _questFailureTotal < 3)
             {
                 AdvanceToNextQuest();
                 CurrentGameState = GameState.PartySelection;
             }
-            else if (CurrentQuestPhase == GlobalConstants.MaxQuests)
+            else if (CurrentQuestPhase - _questFailureTotal == 3)
             {
                 CurrentGameState = GameState.AttemptAssassination;
             }

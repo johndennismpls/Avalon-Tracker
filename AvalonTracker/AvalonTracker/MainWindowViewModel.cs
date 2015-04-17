@@ -65,6 +65,12 @@ namespace AvalonTracker
                     QuestResultsVisibility = Visibility.Hidden;
                     BadGuysWinVisibility = Visibility.Visible;
                     break;
+                case GameState.AttemptAssassination:
+                    PlayerSelectionVisibility = Visibility.Hidden;
+                    PartySelectionVisibility = Visibility.Hidden;
+                    QuestResultsVisibility = Visibility.Hidden;
+                    BadGuysWinVisibility = Visibility.Hidden;
+                    break;
                 default:
                     throw new NotSupportedException();
             }
