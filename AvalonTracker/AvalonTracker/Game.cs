@@ -12,18 +12,8 @@ namespace AvalonTracker
     using System;
     using System.Collections.Generic;
     
-    public partial class Quest
+    public partial class Game
     {
-        public Quest()
-        {
-            this.QuestVotes = new HashSet<QuestVote>();
-        }
-    
         public int Id { get; set; }
-        public int Stage { get; set; }
-        public int VoteTrack { get; set; }
-    
-        public virtual Party Party { get; set; }
-        public virtual ICollection<QuestVote> QuestVotes { get; set; }
     }
 }

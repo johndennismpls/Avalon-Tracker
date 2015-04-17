@@ -88,24 +88,89 @@ namespace AvalonTracker
 
         public ObservableCollection<Player> ActivePlayers = new ObservableCollection<Player>();
 
+
         public void StartMatch()
         {
             using (var context = new AvalonModelContainer())
             {
-                var maxGameId = (from g in context.GameInstances
-                             select g.GameId).Max();
-                var game = new GameInstance
+
+                var maxGameId = (from g in context.Games
+                             select (int?)g.Id).Max().GetValueOrDefault();
+
+                var game = new Game()
                 {
-                    Players = ActivePlayers,
-                    GameId = maxGameId + 1
+                     Id = maxGameId + 1
                 };
-                context.GameInstances.Add(game);
+                context.Games.Add(game);
+
+                context.SaveChanges();
+
+                var maxApId = (from g in context.Games
+                               select (int?)g.Id).Max().GetValueOrDefault();
+                foreach (var activePlayer in ActivePlayers)
+                {
+                    var ap = new ActivePlayer
+                    {
+                        Game = game, 
+                        Player = activePlayer,
+                        Id = maxApId
+                    };
+                    maxApId++;
+                    context.ActivePlayers.Add(ap);
+                }
                 context.SaveChanges();
             }
 
             Services.GameService.PartyChooser = Services.GameService.ActivePlayers.First();
             Services.GameService.AdvanceToNextQuest();
             Services.GameService.CurrentGameState = GameState.PartySelection;
+        }
+
+        public void StartPartySelection()
+        {
+
+        }
+
+
+        public void VoteOnActiveParty()
+        {
+            using (var context = new AvalonModelContainer())
+            {
+                                   
+                var maxQuest = (from g in context.Games
+                                select (int?)g.Id).Max().GetValueOrDefault();
+
+                //TODO add stages!
+                var quest = new Quest
+                {
+                    Id = maxQuest, 
+                    VoteTrack = VoteTrack, 
+                    Stage = 0
+                };
+
+                var party = new Party
+                {
+                    PartyLeaderId = PartyChooser.Id,
+                    Quest = quest
+                };
+
+                var apc = (from ap in context.ActivePlayers select ap);
+
+                foreach (var ap in apc)
+                {
+                    foreach (var p in ActiveParty)
+                    {
+                        if (ap.Player.Id == p.Id)
+                        {
+                            //add matching players into the party
+                            party.ActivePlayers.Add(ap);
+                        }
+                    }
+                }
+                context.Parties.Add(party);
+
+                context.SaveChanges();
+            }
         }
 
         public ObservableCollection<Player> ActiveParty = new ObservableCollection<Player>();

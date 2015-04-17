@@ -14,13 +14,10 @@ namespace AvalonTracker
     
     public partial class PartyVote
     {
-        public int PlayerId { get; set; }
+        public int Id { get; set; }
         public bool ApproveFlag { get; set; }
-        public int PartyId { get; set; }
-        public int QuestId { get; set; }
     
         public virtual Quest Quest { get; set; }
-        public virtual GameInstance ActivePlayer { get; set; }
-        public virtual Party Parties { get; set; }
+        public virtual ActivePlayer ActivePlayer { get; set; }
     }
 }

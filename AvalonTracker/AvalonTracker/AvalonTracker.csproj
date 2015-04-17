@@ -81,6 +81,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActivePlayer.cs">
+      <DependentUpon>AvalonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AvalonModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -103,7 +106,7 @@
       <DependentUpon>CharacterSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CharacterSelectionViewModel.cs" />
-    <Compile Include="GameInstance.cs">
+    <Compile Include="Game.cs">
       <DependentUpon>AvalonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GameService.cs" />

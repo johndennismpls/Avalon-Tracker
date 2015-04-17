@@ -144,12 +144,15 @@ namespace AvalonTracker
 
         private void PartyVotingHelper(object obj)
         {
+            Services.GameService.VoteOnActiveParty();
+
             //count votes
             int approveVotes = 0;
             foreach (var player in Services.GameService.ActivePlayers)
             {
                 if (Services.GameService.VoteTable[new Tuple<Player, int, int, int>(player, Services.GameService.CurrentGameId, Services.GameService.CurrentQuest, Services.GameService.VoteTrack)])
                     approveVotes++;
+
             }
             //the vote passes?
             if ((double)approveVotes / Services.GameService.ActivePlayers.Count > .5)
