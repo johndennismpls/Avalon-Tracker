@@ -152,7 +152,7 @@ namespace AvalonTracker
                 {
                     Id = maxQuest, 
                     VoteTrack = VoteTrack, 
-                    Stage = 0
+                    Stage = CurrentQuestPhase,
                 };
 
                 var party = new Party
@@ -226,6 +226,8 @@ namespace AvalonTracker
                 context.SaveChanges();
             }
 
+
+            AdvanceToNextQuest();
             CurrentGameState = GameState.PartySelection;
         }
 
@@ -294,11 +296,11 @@ namespace AvalonTracker
             VoteTrack = 0;
         }
 
-        public int CurrentQuest { get; private set; }
+        public int CurrentQuestPhase { get; private set; }
 
         public void AdvanceToNextQuest()
         {
-            CurrentQuest += 1;
+            CurrentQuestPhase += 1;
         }
 
 

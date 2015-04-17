@@ -26,7 +26,7 @@ namespace AvalonTracker
             if (Services.GameService.CurrentGameState == GameState.QuestVoting)
             {
                 QuestCards.Clear();
-                int partySize = Services.GameService.GetPartySize(Services.GameService.CurrentQuest);
+                int partySize = Services.GameService.GetPartySize(Services.GameService.CurrentQuestPhase);
                 for (var i = 0; i < partySize; i++)
                 {
                     QuestCards.Add(new QuestCard());

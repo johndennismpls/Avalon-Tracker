@@ -41,6 +41,7 @@ namespace AvalonTracker
                     BadGuysWinVisibility = Visibility.Hidden;
                     break;
                 case GameState.PartySelection:
+                    OnPropertyChanged("RequiredPlayers");
                     PlayerSelectionVisibility = Visibility.Hidden;
                     PartySelectionVisibility = Visibility.Visible;
                     QuestResultsVisibility = Visibility.Hidden;
@@ -178,7 +179,7 @@ namespace AvalonTracker
 
         private bool CanGoToVote(object obj)
         {
-            return Services.GameService.ActiveParty.Count == Services.GameService.GetPartySize(Services.GameService.CurrentQuest);
+            return Services.GameService.ActiveParty.Count == Services.GameService.GetPartySize(Services.GameService.CurrentQuestPhase);
         }
 
         public ICommand GoToVoteCommand { get; set; }
@@ -188,7 +189,7 @@ namespace AvalonTracker
 
         public string RequiredPlayers
         {
-            get { return string.Format("Quest No. {0} requires {1} players", Services.GameService.CurrentQuest, Services.GameService.GetPartySize(Services.GameService.CurrentQuest)); }
+            get { return string.Format("Quest No. {0} requires {1} players", Services.GameService.CurrentQuestPhase, Services.GameService.GetPartySize(Services.GameService.CurrentQuestPhase)); }
         }
 
         public string VoteTrackMessage

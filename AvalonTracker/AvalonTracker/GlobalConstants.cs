@@ -11,5 +11,6 @@ namespace AvalonTracker
         public const int MinimumPlayers = 5;
         public const int MaximumPlayers = 10;
         public const int MaxVoteTrack = 5;
+        public const int MaxQuests = 5;
     }
 }
