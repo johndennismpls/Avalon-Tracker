@@ -120,9 +120,7 @@ namespace AvalonTracker
 
         private void PerformStartMatchCommand(object obj)
         {
-            Services.GameService.PartyChooser = Services.GameService.ActivePlayers.First();
-            Services.GameService.AdvanceToNextQuest();
-            Services.GameService.CurrentGameState = GameState.PartySelection;
+            Services.GameService.StartMatch();
             OnPropertyChanged("RequiredPlayers");
             OnPropertyChanged("NextStateBtnText");
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -49,11 +50,26 @@ namespace AvalonTracker
         {
             using (var context = new AvalonModelContainer())
             {
-                var players = (from p in context.Players 
+                var players = (from p in context.Player
                                select p);
-                foreach (var player in players)
+                if (players != null)
                 {
-                    AllPlayers.Add(player);
+                    foreach (var player in players)
+                    {
+                        bool dupe = false;
+                        foreach (var p2 in AllPlayers)
+                        {
+                            if (p2.Name == player.Name)
+                            {
+                                dupe = true;
+                                break;
+                            }
+                        }
+                        if (!dupe)
+                        {
+                            AllPlayers.Add(player);
+                        }
+                    }    
                 }
             }  
         }
@@ -64,13 +80,33 @@ namespace AvalonTracker
 
             using (var context = new AvalonModelContainer())
             {
-                context.Players.Add(p);
+                context.Player.Add(p);
                 context.SaveChanges();
             }
             AllPlayers.Add(p);
         }
 
         public ObservableCollection<Player> ActivePlayers = new ObservableCollection<Player>();
+
+        public void StartMatch()
+        {
+            using (var context = new AvalonModelContainer())
+            {
+                var maxGameId = (from g in context.GameInstances
+                             select g.GameId).Max();
+                var game = new GameInstance
+                {
+                    Players = ActivePlayers,
+                    GameId = maxGameId + 1
+                };
+                context.GameInstances.Add(game);
+                context.SaveChanges();
+            }
+
+            Services.GameService.PartyChooser = Services.GameService.ActivePlayers.First();
+            Services.GameService.AdvanceToNextQuest();
+            Services.GameService.CurrentGameState = GameState.PartySelection;
+        }
 
         public ObservableCollection<Player> ActiveParty = new ObservableCollection<Player>();
 

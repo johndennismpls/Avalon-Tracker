@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/16/2015 19:16:52
+-- Date Created: 04/16/2015 21:19:24
 -- Generated from EDMX file: E:\NewAvalonTracker\Avalon-Tracker\AvalonTracker\AvalonTracker\AvalonModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [AvalonDB];
+USE [AvalonTest2];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -26,17 +26,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_QuestPartyVote]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Quests] DROP CONSTRAINT [FK_QuestPartyVote];
 GO
-IF OBJECT_ID(N'[dbo].[FK_GameActivePlayer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ActivePlayers] DROP CONSTRAINT [FK_GameActivePlayer];
-GO
 IF OBJECT_ID(N'[dbo].[FK_PlayerActivePlayer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Players] DROP CONSTRAINT [FK_PlayerActivePlayer];
+    ALTER TABLE [dbo].[Player] DROP CONSTRAINT [FK_PlayerActivePlayer];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ActivePlayerPartyVote]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ActivePlayers] DROP CONSTRAINT [FK_ActivePlayerPartyVote];
+    ALTER TABLE [dbo].[PartyVotes] DROP CONSTRAINT [FK_ActivePlayerPartyVote];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PartyActivePlayer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ActivePlayers] DROP CONSTRAINT [FK_PartyActivePlayer];
+    ALTER TABLE [dbo].[Parties] DROP CONSTRAINT [FK_PartyActivePlayer];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PartyVoteParty]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PartyVotes] DROP CONSTRAINT [FK_PartyVoteParty];
@@ -46,8 +43,8 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[ActivePlayers]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ActivePlayers];
+IF OBJECT_ID(N'[dbo].[GameInstances]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GameInstances];
 GO
 IF OBJECT_ID(N'[dbo].[Parties]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Parties];
@@ -55,17 +52,14 @@ GO
 IF OBJECT_ID(N'[dbo].[Quests]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Quests];
 GO
-IF OBJECT_ID(N'[dbo].[Games]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Games];
-GO
 IF OBJECT_ID(N'[dbo].[QuestVotes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[QuestVotes];
 GO
 IF OBJECT_ID(N'[dbo].[PartyVotes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PartyVotes];
 GO
-IF OBJECT_ID(N'[dbo].[Players]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Players];
+IF OBJECT_ID(N'[dbo].[Player]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Player];
 GO
 IF OBJECT_ID(N'[dbo].[Characters]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Characters];
@@ -78,24 +72,18 @@ GO
 -- Creating all tables
 -- --------------------------------------------------
 
--- Creating table 'ActivePlayers'
-CREATE TABLE [dbo].[ActivePlayers] (
-    [PlayerId] int IDENTITY(1,1) NOT NULL,
-    [GameId] int  NOT NULL,
-    [Name] nvarchar(max)  NOT NULL,
-    [Game_Id] int  NOT NULL,
-    [Player_Id] int  NOT NULL,
-    [PartyVotes_PlayerId] int  NOT NULL,
-    [PartyVotes_PartyId] int  NOT NULL,
-    [PartyVotes_QuestId] int  NOT NULL,
-    [Party_Id] int  NOT NULL
+-- Creating table 'GameInstances'
+CREATE TABLE [dbo].[GameInstances] (
+    [GameId] int  NOT NULL
 );
 GO
 
 -- Creating table 'Parties'
 CREATE TABLE [dbo].[Parties] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Quests_Id] int  NOT NULL
+    [PartyLeaderId] int  NOT NULL,
+    [Quests_Id] int  NOT NULL,
+    [Game_GameId] int  NOT NULL
 );
 GO
 
@@ -105,12 +93,6 @@ CREATE TABLE [dbo].[Quests] (
     [QuestPartyVote_Quest_PlayerId] int  NOT NULL,
     [QuestPartyVote_Quest_PartyId] int  NOT NULL,
     [QuestPartyVote_Quest_QuestId] int  NOT NULL
-);
-GO
-
--- Creating table 'Games'
-CREATE TABLE [dbo].[Games] (
-    [Id] int IDENTITY(1,1) NOT NULL
 );
 GO
 
@@ -128,14 +110,17 @@ CREATE TABLE [dbo].[PartyVotes] (
     [ApproveFlag] bit  NOT NULL,
     [PartyId] int  NOT NULL,
     [QuestId] int  NOT NULL,
-    [Parties_Id] int  NOT NULL
+    [ActivePlayer_GameId] int  NOT NULL,
+    [Parties_Id] int  NOT NULL,
+    [Parties_PartyLeaderId] int  NOT NULL
 );
 GO
 
--- Creating table 'Players'
-CREATE TABLE [dbo].[Players] (
+-- Creating table 'Player'
+CREATE TABLE [dbo].[Player] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(max)  NOT NULL
+    [Name] nvarchar(max)  NOT NULL,
+    [PlayerActivePlayer_Player_GameId] int  NULL
 );
 GO
 
@@ -156,27 +141,21 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [PlayerId], [GameId] in table 'ActivePlayers'
-ALTER TABLE [dbo].[ActivePlayers]
-ADD CONSTRAINT [PK_ActivePlayers]
-    PRIMARY KEY CLUSTERED ([PlayerId], [GameId] ASC);
+-- Creating primary key on [GameId] in table 'GameInstances'
+ALTER TABLE [dbo].[GameInstances]
+ADD CONSTRAINT [PK_GameInstances]
+    PRIMARY KEY CLUSTERED ([GameId] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Parties'
+-- Creating primary key on [Id], [PartyLeaderId] in table 'Parties'
 ALTER TABLE [dbo].[Parties]
 ADD CONSTRAINT [PK_Parties]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+    PRIMARY KEY CLUSTERED ([Id], [PartyLeaderId] ASC);
 GO
 
 -- Creating primary key on [Id] in table 'Quests'
 ALTER TABLE [dbo].[Quests]
 ADD CONSTRAINT [PK_Quests]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Games'
-ALTER TABLE [dbo].[Games]
-ADD CONSTRAINT [PK_Games]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -192,9 +171,9 @@ ADD CONSTRAINT [PK_PartyVotes]
     PRIMARY KEY CLUSTERED ([PlayerId], [PartyId], [QuestId] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Players'
-ALTER TABLE [dbo].[Players]
-ADD CONSTRAINT [PK_Players]
+-- Creating primary key on [Id] in table 'Player'
+ALTER TABLE [dbo].[Player]
+ADD CONSTRAINT [PK_Player]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -256,74 +235,60 @@ ON [dbo].[Quests]
     ([QuestPartyVote_Quest_PlayerId], [QuestPartyVote_Quest_PartyId], [QuestPartyVote_Quest_QuestId]);
 GO
 
--- Creating foreign key on [Game_Id] in table 'ActivePlayers'
-ALTER TABLE [dbo].[ActivePlayers]
-ADD CONSTRAINT [FK_GameActivePlayer]
-    FOREIGN KEY ([Game_Id])
-    REFERENCES [dbo].[Games]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_GameActivePlayer'
-CREATE INDEX [IX_FK_GameActivePlayer]
-ON [dbo].[ActivePlayers]
-    ([Game_Id]);
-GO
-
--- Creating foreign key on [Player_Id] in table 'ActivePlayers'
-ALTER TABLE [dbo].[ActivePlayers]
+-- Creating foreign key on [PlayerActivePlayer_Player_GameId] in table 'Player'
+ALTER TABLE [dbo].[Player]
 ADD CONSTRAINT [FK_PlayerActivePlayer]
-    FOREIGN KEY ([Player_Id])
-    REFERENCES [dbo].[Players]
-        ([Id])
+    FOREIGN KEY ([PlayerActivePlayer_Player_GameId])
+    REFERENCES [dbo].[GameInstances]
+        ([GameId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PlayerActivePlayer'
 CREATE INDEX [IX_FK_PlayerActivePlayer]
-ON [dbo].[ActivePlayers]
-    ([Player_Id]);
+ON [dbo].[Player]
+    ([PlayerActivePlayer_Player_GameId]);
 GO
 
--- Creating foreign key on [PartyVotes_PlayerId], [PartyVotes_PartyId], [PartyVotes_QuestId] in table 'ActivePlayers'
-ALTER TABLE [dbo].[ActivePlayers]
+-- Creating foreign key on [ActivePlayer_GameId] in table 'PartyVotes'
+ALTER TABLE [dbo].[PartyVotes]
 ADD CONSTRAINT [FK_ActivePlayerPartyVote]
-    FOREIGN KEY ([PartyVotes_PlayerId], [PartyVotes_PartyId], [PartyVotes_QuestId])
-    REFERENCES [dbo].[PartyVotes]
-        ([PlayerId], [PartyId], [QuestId])
+    FOREIGN KEY ([ActivePlayer_GameId])
+    REFERENCES [dbo].[GameInstances]
+        ([GameId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ActivePlayerPartyVote'
 CREATE INDEX [IX_FK_ActivePlayerPartyVote]
-ON [dbo].[ActivePlayers]
-    ([PartyVotes_PlayerId], [PartyVotes_PartyId], [PartyVotes_QuestId]);
+ON [dbo].[PartyVotes]
+    ([ActivePlayer_GameId]);
 GO
 
--- Creating foreign key on [Party_Id] in table 'ActivePlayers'
-ALTER TABLE [dbo].[ActivePlayers]
+-- Creating foreign key on [Game_GameId] in table 'Parties'
+ALTER TABLE [dbo].[Parties]
 ADD CONSTRAINT [FK_PartyActivePlayer]
-    FOREIGN KEY ([Party_Id])
-    REFERENCES [dbo].[Parties]
-        ([Id])
+    FOREIGN KEY ([Game_GameId])
+    REFERENCES [dbo].[GameInstances]
+        ([GameId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PartyActivePlayer'
 CREATE INDEX [IX_FK_PartyActivePlayer]
-ON [dbo].[ActivePlayers]
-    ([Party_Id]);
+ON [dbo].[Parties]
+    ([Game_GameId]);
 GO
 
--- Creating foreign key on [Parties_Id] in table 'PartyVotes'
+-- Creating foreign key on [Parties_Id], [Parties_PartyLeaderId] in table 'PartyVotes'
 ALTER TABLE [dbo].[PartyVotes]
 ADD CONSTRAINT [FK_PartyVoteParty]
-    FOREIGN KEY ([Parties_Id])
+    FOREIGN KEY ([Parties_Id], [Parties_PartyLeaderId])
     REFERENCES [dbo].[Parties]
-        ([Id])
+        ([Id], [PartyLeaderId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PartyVoteParty'
 CREATE INDEX [IX_FK_PartyVoteParty]
 ON [dbo].[PartyVotes]
-    ([Parties_Id]);
+    ([Parties_Id], [Parties_PartyLeaderId]);
 GO
 
 -- --------------------------------------------------

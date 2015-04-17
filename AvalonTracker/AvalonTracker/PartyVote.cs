@@ -20,7 +20,7 @@ namespace AvalonTracker
         public int QuestId { get; set; }
     
         public virtual Quest Quest { get; set; }
-        public virtual ActivePlayer ActivePlayer { get; set; }
+        public virtual GameInstance ActivePlayer { get; set; }
         public virtual Party Parties { get; set; }
     }
 }

@@ -5,11 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9ab991e30fec416aa51ac17274f37fed" Name="Diagram1" ZoomLevel="86" >
-        <EntityTypeShape EntityType="AvalonModel.ActivePlayer" Width="1.5" PointX="11.5" PointY="1" />
+        <EntityTypeShape EntityType="AvalonModel.GameInstance" Width="1.5" PointX="11.5" PointY="1.5" />
         <EntityTypeShape EntityType="AvalonModel.Party" Width="1.5" PointX="8" PointY="4.875" />
         <EntityTypeShape EntityType="AvalonModel.Quest" Width="1.5" PointX="2.5" PointY="4.875" />
         <AssociationConnector Association="AvalonModel.PartyQuest" />
-        <EntityTypeShape EntityType="AvalonModel.Game" Width="1.5" PointX="14.375" PointY="2.5" />
         <EntityTypeShape EntityType="AvalonModel.QuestVote" Width="1.5" PointX="0.75" PointY="1.375" />
         <AssociationConnector Association="AvalonModel.QuestVoteQuest" />
         <EntityTypeShape EntityType="AvalonModel.PartyVote" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
@@ -17,7 +16,6 @@
         <EntityTypeShape EntityType="AvalonModel.Player" Width="1.5" PointX="14" PointY="0.5" />
         <EntityTypeShape EntityType="AvalonModel.Character" Width="1.5" PointX="3.625" PointY="8" />
         <EntityTypeShape EntityType="AvalonModel.RevealedCharacter" Width="1.875" PointX="9" PointY="7.875" />
-        <AssociationConnector Association="AvalonModel.GameActivePlayer" />
         <AssociationConnector Association="AvalonModel.PlayerActivePlayer" />
         <AssociationConnector Association="AvalonModel.ActivePlayerPartyVote" />
         <AssociationConnector Association="AvalonModel.PartyActivePlayer" />

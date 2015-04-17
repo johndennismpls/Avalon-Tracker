@@ -25,13 +25,12 @@ namespace AvalonTracker
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ActivePlayer> ActivePlayers { get; set; }
+        public virtual DbSet<GameInstance> GameInstances { get; set; }
         public virtual DbSet<Party> Parties { get; set; }
         public virtual DbSet<Quest> Quests { get; set; }
-        public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<QuestVote> QuestVotes { get; set; }
         public virtual DbSet<PartyVote> PartyVotes { get; set; }
-        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<Player> Player { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
         public virtual DbSet<RevealedCharacter> RevealedCharacters { get; set; }
     }

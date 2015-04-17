@@ -14,14 +14,10 @@ namespace AvalonTracker
     
     public partial class Party
     {
-        public Party()
-        {
-            this.ActivePlayers = new HashSet<ActivePlayer>();
-        }
-    
         public int Id { get; set; }
+        public int PartyLeaderId { get; set; }
     
         public virtual Quest Quests { get; set; }
-        public virtual ICollection<ActivePlayer> ActivePlayers { get; set; }
+        public virtual GameInstance Game { get; set; }
     }
 }
