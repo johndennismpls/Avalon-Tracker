@@ -100,8 +100,9 @@ namespace AvalonTracker
                 var game = new Game()
                 {
                      Id = maxGameId + 1,
-                     DateTime = DateTime.Now,
+                     StartTime = DateTime.Now,
                 };
+                CurrentGameId = game.Id;
                 context.Games.Add(game);
 
                 context.SaveChanges();
@@ -134,6 +135,9 @@ namespace AvalonTracker
             Services.GameService.CurrentGameState = GameState.PartySelection;
         }
 
+        public int CurrentGameId { get; private set; }
+
+
         public void StartPartySelection()
         {
 
@@ -163,7 +167,9 @@ namespace AvalonTracker
                     Quest = quest
                 };
 
-                var apc = (from ap in context.ActivePlayers select ap);
+                var apc = (from ap in context.ActivePlayers
+                           where ap.Game.Id == CurrentGameId
+                           select ap);
 
                 foreach (var ap in apc)
                 {
@@ -188,17 +194,41 @@ namespace AvalonTracker
                     partyVote.Id = partyVoteMax + 1;
                     partyVote.Quest = quest;
                     partyVote.ApproveFlag = entry.Value;
+                    partyVoteMax++;
 
-                    //TODO fix: since we use player instead of active player
-                    foreach (var ap in apc)
+                    var apcRedux = (from ap in context.ActivePlayers 
+                                    where ap.Game.Id == CurrentGameId
+                                    select ap);
+                    //for (int i = 0; i < li.Count; i++)
+                    //{
+                    //    int applayerId = li[i].PlayerId;
+                    //    int apid = li[i].Id;
+                    //    var found = false;
+                    //    {
+                    //        if (entry.Key.Id == applayerId)
+                    //        {
+                    //           partyVote.ActivePlayerId = apid;
+                    //           found = true;
+                    //            break;
+                    //        }
+                    //    }
+                    //    if (found) break;
+                    //}
+
+                    foreach (var ap in apcRedux)
                     {
-                        foreach (var p in this.ActivePlayers)
+                        int applayerId = ap.PlayerId;
+                        int apid = ap.Id;
+                        var found = false;
                         {
-                            if (p.Id == ap.PlayerId)
+                            if (entry.Key.Id == applayerId)
                             {
-                                partyVote.ActivePlayer = ap;
+                                partyVote.ActivePlayerId = apid;
+                                found = true;
+                                break;
                             }
                         }
+                        if (found) break;
                     }
                     context.PartyVotes.Add(partyVote);
                 }
@@ -281,7 +311,6 @@ namespace AvalonTracker
             }
         }
 
-        public int CurrentGameId { get { return 0; } }
 
         public int VoteTrack { get; private set; }
 

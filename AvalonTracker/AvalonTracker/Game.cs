@@ -15,6 +15,7 @@ namespace AvalonTracker
     public partial class Game
     {
         public int Id { get; set; }
-        public System.DateTime DateTime { get; set; }
+        public System.DateTime StartTime { get; set; }
+        public string EndTime { get; set; }
     }
 }

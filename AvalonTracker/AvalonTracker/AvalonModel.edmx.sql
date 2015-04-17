@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2015 10:28:23
+-- Date Created: 04/17/2015 12:14:17
 -- Generated from EDMX file: E:\NewAvalonTracker\Avalon-Tracker\AvalonTracker\AvalonTracker\AvalonModel.edmx
 -- --------------------------------------------------
 
@@ -31,9 +31,6 @@ IF OBJECT_ID(N'[dbo].[FK_QuestPartyVote]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_GameActivePlayer]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ActivePlayers] DROP CONSTRAINT [FK_GameActivePlayer];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ActivePlayerPartyVote]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PartyVotes] DROP CONSTRAINT [FK_ActivePlayerPartyVote];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PartyActivePlayer_Party]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PartyActivePlayer] DROP CONSTRAINT [FK_PartyActivePlayer_Party];
@@ -111,8 +108,8 @@ GO
 CREATE TABLE [dbo].[PartyVotes] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [ApproveFlag] bit  NOT NULL,
-    [Quest_Id] int  NOT NULL,
-    [ActivePlayer_Id] int  NOT NULL
+    [ActivePlayerId] int  NOT NULL,
+    [Quest_Id] int  NOT NULL
 );
 GO
 
@@ -147,7 +144,8 @@ GO
 -- Creating table 'Games'
 CREATE TABLE [dbo].[Games] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [DateTime] datetime  NOT NULL
+    [StartTime] datetime  NOT NULL,
+    [EndTime] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -302,20 +300,6 @@ ADD CONSTRAINT [FK_GameActivePlayer]
 CREATE INDEX [IX_FK_GameActivePlayer]
 ON [dbo].[ActivePlayers]
     ([Game_Id]);
-GO
-
--- Creating foreign key on [ActivePlayer_Id] in table 'PartyVotes'
-ALTER TABLE [dbo].[PartyVotes]
-ADD CONSTRAINT [FK_ActivePlayerPartyVote]
-    FOREIGN KEY ([ActivePlayer_Id])
-    REFERENCES [dbo].[ActivePlayers]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ActivePlayerPartyVote'
-CREATE INDEX [IX_FK_ActivePlayerPartyVote]
-ON [dbo].[PartyVotes]
-    ([ActivePlayer_Id]);
 GO
 
 -- Creating foreign key on [PartyActivePlayer_ActivePlayer_PartyId] in table 'PartyActivePlayer'

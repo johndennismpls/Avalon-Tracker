@@ -99,16 +99,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AvalonModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="AvalonTest4DataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AvalonTest4DataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="AvalonTest4DataSet1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AvalonTest4DataSet1.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Character.cs">
       <DependentUpon>AvalonModel.tt</DependentUpon>
     </Compile>
@@ -251,28 +241,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AvalonModel.cs</LastGenOutput>
       <DependentUpon>AvalonModel.edmx</DependentUpon>
-    </None>
-    <None Include="AvalonTest4DataSet.xsc">
-      <DependentUpon>AvalonTest4DataSet.xsd</DependentUpon>
-    </None>
-    <None Include="AvalonTest4DataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AvalonTest4DataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="AvalonTest4DataSet.xss">
-      <DependentUpon>AvalonTest4DataSet.xsd</DependentUpon>
-    </None>
-    <None Include="AvalonTest4DataSet1.xsc">
-      <DependentUpon>AvalonTest4DataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="AvalonTest4DataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AvalonTest4DataSet1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="AvalonTest4DataSet1.xss">
-      <DependentUpon>AvalonTest4DataSet1.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

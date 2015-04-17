@@ -24,7 +24,6 @@
           <ConnectorPoint PointX="13.276405309140412" PointY="2.2390873001512483" />
           <ConnectorPoint PointX="11.375" PointY="2.2390873001512483" />
         </AssociationConnector>
-        <AssociationConnector Association="AvalonModel.ActivePlayerPartyVote" />
         <AssociationConnector Association="AvalonModel.PartyActivePlayer" />
       </Diagram>
     </edmx:Diagrams>

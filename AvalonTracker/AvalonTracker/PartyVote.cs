@@ -16,8 +16,8 @@ namespace AvalonTracker
     {
         public int Id { get; set; }
         public bool ApproveFlag { get; set; }
+        public int ActivePlayerId { get; set; }
     
         public virtual Quest Quest { get; set; }
-        public virtual ActivePlayer ActivePlayer { get; set; }
     }
 }
