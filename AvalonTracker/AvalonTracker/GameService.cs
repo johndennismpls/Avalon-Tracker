@@ -226,10 +226,28 @@ namespace AvalonTracker
                 context.SaveChanges();
             }
 
-
-            AdvanceToNextQuest();
-            CurrentGameState = GameState.PartySelection;
+            int failureTotal = results.Count(result => !result);
+            if (failureTotal >= this.QuestFailureRequirement(CurrentQuestPhase))
+            {
+                //quest failed!
+                _questFailureTotal++;
+            }
+            if (_questFailureTotal < 3 && CurrentQuestPhase < GlobalConstants.MaxQuests)
+            {
+                AdvanceToNextQuest();
+                CurrentGameState = GameState.PartySelection;
+            }
+            else if (CurrentQuestPhase == GlobalConstants.MaxQuests)
+            {
+                CurrentGameState = GameState.AttemptAssassination;
+            }
+            else
+            {
+                CurrentGameState = GameState.BadGuysWin;
+            }
         }
+
+        private int _questFailureTotal;
 
 
         public ObservableCollection<Player> ActiveParty = new ObservableCollection<Player>();
@@ -384,8 +402,17 @@ namespace AvalonTracker
             return -1;
         }
 
-
-
+        public int QuestFailureRequirement(int questNumber)
+        {
+            if (ActivePlayers.Count < 7)
+            {
+                return 1;
+            }
+            else
+            {
+                return questNumber == 4 ? 2 : 1;
+            }
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
