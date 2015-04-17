@@ -14,8 +14,8 @@
                      >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel d:DataContext="{d:DesignInstance local:QuestCard}" >
-                            <Border Background="Black" Margin="5,5,5,5" Width="40" Height="90" >
+                        <StackPanel d:DataContext="{d:DesignInstance local:QuestCard}">
+                            <Border Background="Black" Margin="5,5,5,5" Width="75" Height="250" >
                                 <TextBlock Text ="{Binding PassFailStatus}" Foreground="Yellow" FontSize="20"/>
                             </Border>
                         </StackPanel>
@@ -28,7 +28,7 @@
                 </ListBox.ItemsPanel>
             </ListBox>
             
-            <Button Content="Submit Results!" Click="ButtonBase_OnClick"/>
+            <Button Content="Submit Results!" Width="300" Height="60" Margin="10,25,10,10" Click="ButtonBase_OnClick"/>
         </StackPanel>
     </Grid>
 </UserControl>
