@@ -116,7 +116,7 @@
       <DependentUpon>NewPlayerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewPlayerViewModel.cs" />
-    <Compile Include="Party.cs">
+    <Compile Include="PartyPlayer.cs">
       <DependentUpon>AvalonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PartySelectorView.xaml.cs">

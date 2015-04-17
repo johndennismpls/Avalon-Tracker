@@ -23,7 +23,6 @@ namespace AvalonTracker
         public int Stage { get; set; }
         public int VoteTrack { get; set; }
     
-        public virtual Party Party { get; set; }
         public virtual ICollection<QuestVote> QuestVotes { get; set; }
     }
 }

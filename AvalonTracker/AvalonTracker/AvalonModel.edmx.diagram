@@ -5,9 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9ab991e30fec416aa51ac17274f37fed" Name="Diagram1" ZoomLevel="86" >
-        <EntityTypeShape EntityType="AvalonModel.Party" Width="1.5" PointX="8" PointY="4.875" />
+        <EntityTypeShape EntityType="AvalonModel.PartyPlayer" Width="1.5" PointX="8" PointY="4.875" />
         <EntityTypeShape EntityType="AvalonModel.Quest" Width="1.5" PointX="2.5" PointY="4.875" />
-        <AssociationConnector Association="AvalonModel.PartyQuest" />
         <EntityTypeShape EntityType="AvalonModel.QuestVote" Width="1.5" PointX="0.75" PointY="1.375" />
         <AssociationConnector Association="AvalonModel.QuestVoteQuest" />
         <EntityTypeShape EntityType="AvalonModel.PartyVote" Width="1.5" PointX="4.625" PointY="0.5" IsExpanded="true" />

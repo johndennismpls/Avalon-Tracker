@@ -101,6 +101,7 @@ namespace AvalonTracker
                 {
                      Id = maxGameId + 1,
                      StartTime = DateTime.Now,
+                     EndTime = null
                 };
                 CurrentGameId = game.Id;
                 context.Games.Add(game);
@@ -150,40 +151,61 @@ namespace AvalonTracker
             using (var context = new AvalonModelContainer())
             {
                                    
-                var maxQuest = (from g in context.Games
-                                select (int?)g.Id).Max().GetValueOrDefault();
+                var maxQuest = (from q in context.Quests
+                                select (int?)q.Id).Max().GetValueOrDefault();
 
-                //TODO add stages!
                 var quest = new Quest
                 {
-                    Id = maxQuest, 
+                    Id = maxQuest + 1, 
                     VoteTrack = VoteTrack, 
                     Stage = CurrentQuestPhase,
                 };
+                context.Quests.Add(quest);
 
-                var party = new Party
-                {
-                    PartyLeaderId = PartyChooser.Id,
-                    Quest = quest
-                };
+
+
 
                 var apc = (from ap in context.ActivePlayers
                            where ap.Game.Id == CurrentGameId
                            select ap);
 
-                foreach (var ap in apc)
+                var apcthree = (from ap in context.ActivePlayers
+                                where ap.Game.Id == CurrentGameId
+                                select ap);
+
+                int partyLeaderId = -1;
+                foreach (var ap in apcthree)
                 {
-                    foreach (var p in ActiveParty)
+                    if (ap.PlayerId == PartyChooser.Id)
+                    {
+                        partyLeaderId = ap.Id;
+                    }
+                }
+
+                var maxPartyPlayerId = (from p in context.PartyPlayers
+                                        select (int?)p.Id).Max().GetValueOrDefault();
+
+                foreach (var p in ActiveParty)
+                {
+                    var partyPlayer = new PartyPlayer()
+                    {
+                        PartyLeaderId = partyLeaderId,
+                        Id = maxPartyPlayerId,
+                        QuestId = quest.Id,
+                    };
+                    maxPartyPlayerId++;
+
+                    foreach (var ap in apc)
                     {
                         if (ap.PlayerId == p.Id)
                         {
                             //add matching players into the party
-                            party.ActivePlayers.Add(ap);
+                            partyPlayer.ActivePlayerId = ap.Id;
+                            context.PartyPlayers.Add(partyPlayer);
+                            break;
                         }
                     }
-
                 }
-                context.Parties.Add(party);
 
                 var partyVoteMax = (from g in context.Games
                                 select (int?)g.Id).Max().GetValueOrDefault();
@@ -199,21 +221,6 @@ namespace AvalonTracker
                     var apcRedux = (from ap in context.ActivePlayers 
                                     where ap.Game.Id == CurrentGameId
                                     select ap);
-                    //for (int i = 0; i < li.Count; i++)
-                    //{
-                    //    int applayerId = li[i].PlayerId;
-                    //    int apid = li[i].Id;
-                    //    var found = false;
-                    //    {
-                    //        if (entry.Key.Id == applayerId)
-                    //        {
-                    //           partyVote.ActivePlayerId = apid;
-                    //           found = true;
-                    //            break;
-                    //        }
-                    //    }
-                    //    if (found) break;
-                    //}
 
                     foreach (var ap in apcRedux)
                     {
@@ -232,6 +239,7 @@ namespace AvalonTracker
                     }
                     context.PartyVotes.Add(partyVote);
                 }
+
 
                 context.SaveChanges();
             }
