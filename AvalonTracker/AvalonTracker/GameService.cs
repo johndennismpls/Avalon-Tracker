@@ -341,78 +341,43 @@ namespace AvalonTracker
                 case 5:
                     switch (questNumber)
                     {
-                        case 1:
-                        case 3:
-                            return 2;
-                        case 2:
-                        case 4:
-                        case 5:
-                            return 3;
+                        case 1: return 2;
+                        case 2: return 3;
+                        case 3: return 2;
+                        case 4: return 3;
+                        case 5: return 3;
                     }
                     break;
                 case 6:
                     switch (questNumber)
                     {
-                        case 1:
-                            return 2;
-                        case 2:
-                        case 4:
-                            return 3;
-                        case 3:
-                        case 5:
-                            return 4;
+                        case 1: return 2;
+                        case 2: return 3;
+                        case 3: return 4;
+                        case 4: return 3;
+                        case 5: return 4;
                     }
                     break;
                 case 7:
                     switch (questNumber)
                     {
-                        case 1:
-                            return 2;
-                        case 2:
-                        case 3:
-                            return 3;
-                        case 4:
-                        case 5:
-                            return 4;
+                        case 1: return 2;
+                        case 2: return 3;
+                        case 3: return 3;
+                        case 4: return 4;
+                        case 5: return 4;
                     }
                     break;
                 case 8:
-                    switch (questNumber)
-                    {
-                        case 1:
-                            return 3;
-                        case 2:
-                        case 3:
-                            return 4;
-                        case 4:
-                        case 5:
-                            return 5;
-                    }
-                    break;
                 case 9:
-                    switch (questNumber)
-                    {
-                        case 1:
-                            return 3;
-                        case 2:
-                        case 3:
-                            return 4;
-                        case 4:
-                        case 5:
-                            return 5;
-                    }
-                    break;
                 case 10:
-                    switch (questNumber)
+                switch (questNumber)
                     {
-                        case 1:
-                            return 3;
-                        case 2:
-                        case 3:
-                            return 4;
-                        case 4:
-                        case 5:
-                            return 5;
+                        case 1: return 3;
+                        case 2: return 4;
+                        case 3: return 4;
+                        case 4: return 5;
+                        case 5: return 5;
                     }
                     break;
             }
