@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2015 00:59:40
+-- Date Created: 04/17/2015 10:28:23
 -- Generated from EDMX file: E:\NewAvalonTracker\Avalon-Tracker\AvalonTracker\AvalonTracker\AvalonModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [AvalonTest3];
+USE [AvalonTest4];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -28,9 +28,6 @@ IF OBJECT_ID(N'[dbo].[FK_QuestVoteQuest_Quest]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_QuestPartyVote]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PartyVotes] DROP CONSTRAINT [FK_QuestPartyVote];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ActivePlayerPlayer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ActivePlayers] DROP CONSTRAINT [FK_ActivePlayerPlayer];
 GO
 IF OBJECT_ID(N'[dbo].[FK_GameActivePlayer]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ActivePlayers] DROP CONSTRAINT [FK_GameActivePlayer];
@@ -142,14 +139,15 @@ GO
 -- Creating table 'ActivePlayers'
 CREATE TABLE [dbo].[ActivePlayers] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Player_Id] int  NOT NULL,
+    [PlayerId] int  NOT NULL,
     [Game_Id] int  NOT NULL
 );
 GO
 
 -- Creating table 'Games'
 CREATE TABLE [dbo].[Games] (
-    [Id] int IDENTITY(1,1) NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DateTime] datetime  NOT NULL
 );
 GO
 
@@ -290,20 +288,6 @@ ADD CONSTRAINT [FK_QuestPartyVote]
 CREATE INDEX [IX_FK_QuestPartyVote]
 ON [dbo].[PartyVotes]
     ([Quest_Id]);
-GO
-
--- Creating foreign key on [Player_Id] in table 'ActivePlayers'
-ALTER TABLE [dbo].[ActivePlayers]
-ADD CONSTRAINT [FK_ActivePlayerPlayer]
-    FOREIGN KEY ([Player_Id])
-    REFERENCES [dbo].[Player]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ActivePlayerPlayer'
-CREATE INDEX [IX_FK_ActivePlayerPlayer]
-ON [dbo].[ActivePlayers]
-    ([Player_Id]);
 GO
 
 -- Creating foreign key on [Game_Id] in table 'ActivePlayers'

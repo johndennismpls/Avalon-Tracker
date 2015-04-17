@@ -15,8 +15,8 @@ namespace AvalonTracker
     public partial class ActivePlayer
     {
         public int Id { get; set; }
+        public int PlayerId { get; set; }
     
-        public virtual Player Player { get; set; }
         public virtual Game Game { get; set; }
     }
 }

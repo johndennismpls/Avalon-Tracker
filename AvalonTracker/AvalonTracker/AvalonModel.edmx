@@ -33,10 +33,6 @@
       <End Role="Quest" EntitySet="Quests" />
       <End Role="PartyVote" EntitySet="PartyVotes" />
     </AssociationSet>
-    <AssociationSet Name="ActivePlayerPlayer" Association="AvalonModel.Store.ActivePlayerPlayer">
-      <End Role="ActivePlayer" EntitySet="ActivePlayers" />
-      <End Role="Player" EntitySet="Player" />
-    </AssociationSet>
     <AssociationSet Name="GameActivePlayer" Association="AvalonModel.Store.GameActivePlayer">
       <End Role="Game" EntitySet="Games" />
       <End Role="ActivePlayer" EntitySet="ActivePlayers" />
@@ -111,7 +107,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Player_Id" Type="int" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
     <Property Name="Game_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Games">
@@ -119,6 +115,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="QuestVoteQuest">
     <Key>
@@ -157,18 +154,6 @@
       </Principal>
       <Dependent Role="PartyVote">
         <PropertyRef Name="Quest_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ActivePlayerPlayer">
-    <End Role="ActivePlayer" Type="AvalonModel.Store.ActivePlayers" Multiplicity="*" />
-    <End Role="Player" Type="AvalonModel.Store.Player" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Player">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ActivePlayer">
-        <PropertyRef Name="Player_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -269,10 +254,6 @@
           <EntitySet Name="Characters" EntityType="AvalonModel.Character" />
           <EntitySet Name="RevealedCharacters" EntityType="AvalonModel.RevealedCharacter" />
           <EntitySet Name="ActivePlayers" EntityType="AvalonModel.ActivePlayer" />
-          <AssociationSet Name="ActivePlayerPlayer" Association="AvalonModel.ActivePlayerPlayer">
-            <End Role="ActivePlayer" EntitySet="ActivePlayers" />
-            <End Role="Player" EntitySet="Player" />
-          </AssociationSet>
           <EntitySet Name="Games" EntityType="AvalonModel.Game" />
           <AssociationSet Name="GameActivePlayer" Association="AvalonModel.GameActivePlayer">
             <End Role="Game" EntitySet="Games" />
@@ -359,18 +340,15 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Player" Relationship="AvalonModel.ActivePlayerPlayer" FromRole="ActivePlayer" ToRole="Player" />
           <NavigationProperty Name="Game" Relationship="AvalonModel.GameActivePlayer" FromRole="ActivePlayer" ToRole="Game" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="ActivePlayerPlayer">
-          <End Type="AvalonModel.ActivePlayer" Role="ActivePlayer" Multiplicity="0..1" />
-          <End Type="AvalonModel.Player" Role="Player" Multiplicity="1" />
-        </Association>
         <EntityType Name="Game">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" />
         </EntityType>
         <Association Name="GameActivePlayer">
           <End Type="AvalonModel.Game" Role="Game" Multiplicity="1" />
@@ -450,6 +428,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(AvalonModel.ActivePlayer)">
         <MappingFragment StoreEntitySet="ActivePlayers">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -457,6 +436,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(AvalonModel.Game)">
         <MappingFragment StoreEntitySet="Games">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -481,14 +461,6 @@
         <ScalarProperty Name="Id" ColumnName="Quest_Id" />
       </EndProperty>
       <EndProperty Name="PartyVote">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ActivePlayerPlayer" TypeName="AvalonModel.ActivePlayerPlayer" StoreEntitySet="ActivePlayers">
-      <EndProperty Name="Player">
-        <ScalarProperty Name="Id" ColumnName="Player_Id" />
-      </EndProperty>
-      <EndProperty Name="ActivePlayer">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

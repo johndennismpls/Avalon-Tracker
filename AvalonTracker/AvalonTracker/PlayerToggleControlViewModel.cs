@@ -57,6 +57,8 @@ namespace AvalonTracker
                     break;
                 case GameState.BadGuysWin:
                     break;
+                case GameState.AttemptAssassination:
+                    break;
                 default:
                     throw new NotSupportedException();
             }

@@ -16,9 +16,13 @@
         <EntityTypeShape EntityType="AvalonModel.Character" Width="1.5" PointX="3.625" PointY="8" />
         <EntityTypeShape EntityType="AvalonModel.RevealedCharacter" Width="1.875" PointX="9" PointY="7.875" />
         <EntityTypeShape EntityType="AvalonModel.ActivePlayer" Width="1.5" PointX="9.875" PointY="0.75" />
-        <AssociationConnector Association="AvalonModel.ActivePlayerPlayer" />
         <EntityTypeShape EntityType="AvalonModel.Game" Width="1.5" PointX="15.5" PointY="4.75" />
-        <AssociationConnector Association="AvalonModel.GameActivePlayer" ManuallyRouted="false" >
+        <AssociationConnector Association="AvalonModel.GameActivePlayer" ManuallyRouted="true" >
+          <ConnectorPoint PointX="16.28125" PointY="4.75" />
+          <ConnectorPoint PointX="16.28125" PointY="3.86217861328125" />
+          <ConnectorPoint PointX="13.276405309140412" PointY="3.86217861328125" />
+          <ConnectorPoint PointX="13.276405309140412" PointY="2.2390873001512483" />
+          <ConnectorPoint PointX="11.375" PointY="2.2390873001512483" />
         </AssociationConnector>
         <AssociationConnector Association="AvalonModel.ActivePlayerPartyVote" />
         <AssociationConnector Association="AvalonModel.PartyActivePlayer" />

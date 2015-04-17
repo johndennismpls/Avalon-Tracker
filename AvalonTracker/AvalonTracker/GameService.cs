@@ -99,11 +99,13 @@ namespace AvalonTracker
 
                 var game = new Game()
                 {
-                     Id = maxGameId + 1
+                     Id = maxGameId + 1,
+                     DateTime = DateTime.Now,
                 };
                 context.Games.Add(game);
 
                 context.SaveChanges();
+
 
                 var maxApId = (from g in context.Games
                                select (int?)g.Id).Max().GetValueOrDefault();
@@ -111,8 +113,8 @@ namespace AvalonTracker
                 {
                     var ap = new ActivePlayer
                     {
-                        Game = game, 
-                        Player = activePlayer,
+                        Game = game,
+                        PlayerId = activePlayer.Id,
                         Id = maxApId
                     };
                     maxApId++;
@@ -167,7 +169,7 @@ namespace AvalonTracker
                 {
                     foreach (var p in ActiveParty)
                     {
-                        if (ap.Player.Id == p.Id)
+                        if (ap.PlayerId == p.Id)
                         {
                             //add matching players into the party
                             party.ActivePlayers.Add(ap);
@@ -192,7 +194,7 @@ namespace AvalonTracker
                     {
                         foreach (var p in this.ActivePlayers)
                         {
-                            if (p.Id == ap.Player.Id)
+                            if (p.Id == ap.PlayerId)
                             {
                                 partyVote.ActivePlayer = ap;
                             }

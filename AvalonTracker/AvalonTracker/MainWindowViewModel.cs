@@ -121,8 +121,8 @@ namespace AvalonTracker
 
         private bool CanPerformStartMatchCommand(object obj)
         {
-            return (Services.GameService.ActivePlayers.Count > GlobalConstants.MinimumPlayers)
-                    && Services.GameService.ActivePlayers.Count < GlobalConstants.MaximumPlayers;
+            return (Services.GameService.ActivePlayers.Count >= GlobalConstants.MinimumPlayers)
+                    && Services.GameService.ActivePlayers.Count <= GlobalConstants.MaximumPlayers;
         }
 
         private void PerformStartMatchCommand(object obj)
