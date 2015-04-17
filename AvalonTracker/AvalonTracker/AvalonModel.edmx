@@ -65,6 +65,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PassFlag" Type="bit" Nullable="false" />
+    <Property Name="QuestId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PartyVotes">
     <Key>
@@ -254,6 +255,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PassFlag" Type="Boolean" Nullable="false" />
+          <Property Name="QuestId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="QuestVoteQuest">
           <End Type="AvalonModel.QuestVote" Role="QuestVote" Multiplicity="*" />
@@ -346,6 +348,7 @@
         <MappingFragment StoreEntitySet="QuestVotes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PassFlag" ColumnName="PassFlag" />
+          <ScalarProperty Name="QuestId" ColumnName="QuestId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

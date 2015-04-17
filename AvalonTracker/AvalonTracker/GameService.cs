@@ -145,6 +145,7 @@ namespace AvalonTracker
 
         }
 
+        private int _curQuestId = 0;
 
         public void VoteOnActiveParty()
         {
@@ -160,10 +161,8 @@ namespace AvalonTracker
                     VoteTrack = VoteTrack, 
                     Stage = CurrentQuestPhase,
                 };
+                _curQuestId = quest.Id;
                 context.Quests.Add(quest);
-
-
-
 
                 var apc = (from ap in context.ActivePlayers
                            where ap.Game.Id == CurrentGameId
@@ -259,7 +258,8 @@ namespace AvalonTracker
                     var questVote = new QuestVote
                     {
                         PassFlag = result, 
-                        Id = qvmax++
+                        Id = qvmax++,
+                        QuestId = _curQuestId,
                     };
                     context.QuestVotes.Add(questVote);
                 }

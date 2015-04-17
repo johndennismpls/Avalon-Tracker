@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2015 13:02:35
+-- Date Created: 04/17/2015 13:18:40
 -- Generated from EDMX file: E:\NewAvalonTracker\Avalon-Tracker\AvalonTracker\AvalonTracker\AvalonModel.edmx
 -- --------------------------------------------------
 
@@ -17,9 +17,6 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_PartyQuest]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Quests] DROP CONSTRAINT [FK_PartyQuest];
-GO
 IF OBJECT_ID(N'[dbo].[FK_QuestVoteQuest_QuestVote]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[QuestVoteQuest] DROP CONSTRAINT [FK_QuestVoteQuest_QuestVote];
 GO
@@ -101,7 +98,8 @@ GO
 -- Creating table 'QuestVotes'
 CREATE TABLE [dbo].[QuestVotes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [PassFlag] bit  NOT NULL
+    [PassFlag] bit  NOT NULL,
+    [QuestId] int  NOT NULL
 );
 GO
 

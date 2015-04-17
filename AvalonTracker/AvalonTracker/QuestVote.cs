@@ -16,5 +16,6 @@ namespace AvalonTracker
     {
         public int Id { get; set; }
         public bool PassFlag { get; set; }
+        public int QuestId { get; set; }
     }
 }
