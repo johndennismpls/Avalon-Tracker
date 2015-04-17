@@ -15,14 +15,19 @@
     <EntitySet Name="RevealedCharacters" EntityType="AvalonModel.Store.RevealedCharacters" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ActivePlayers" EntityType="AvalonModel.Store.ActivePlayers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Games" EntityType="AvalonModel.Store.Games" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuestVoteQuest" EntityType="AvalonModel.Store.QuestVoteQuest" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PartyActivePlayer" EntityType="AvalonModel.Store.PartyActivePlayer" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="PartyQuest" Association="AvalonModel.Store.PartyQuest">
       <End Role="Party" EntitySet="Parties" />
       <End Role="Quest" EntitySet="Quests" />
     </AssociationSet>
-    <AssociationSet Name="QuestVoteQuest" Association="AvalonModel.Store.QuestVoteQuest">
+    <AssociationSet Name="FK_QuestVoteQuest_QuestVote" Association="AvalonModel.Store.FK_QuestVoteQuest_QuestVote">
       <End Role="QuestVote" EntitySet="QuestVotes" />
+      <End Role="QuestVoteQuest" EntitySet="QuestVoteQuest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestVoteQuest_Quest" Association="AvalonModel.Store.FK_QuestVoteQuest_Quest">
       <End Role="Quest" EntitySet="Quests" />
+      <End Role="QuestVoteQuest" EntitySet="QuestVoteQuest" />
     </AssociationSet>
     <AssociationSet Name="QuestPartyVote" Association="AvalonModel.Store.QuestPartyVote">
       <End Role="Quest" EntitySet="Quests" />
@@ -71,7 +76,6 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PassFlag" Type="bit" Nullable="false" />
-    <Property Name="QuestVoteQuest_QuestVote_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PartyVotes">
     <Key>
@@ -116,6 +120,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
+  <EntityType Name="QuestVoteQuest">
+    <Key>
+      <PropertyRef Name="QuestVotes_Id" />
+      <PropertyRef Name="QuestVoteQuest_QuestVote_Id" />
+    </Key>
+    <Property Name="QuestVotes_Id" Type="int" Nullable="false" />
+    <Property Name="QuestVoteQuest_QuestVote_Id" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="PartyActivePlayer">
     <Key>
       <PropertyRef Name="PartyActivePlayer_ActivePlayer_PartyId" />
@@ -133,18 +145,6 @@
       </Principal>
       <Dependent Role="Party">
         <PropertyRef Name="Quest_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="QuestVoteQuest">
-    <End Role="QuestVote" Type="AvalonModel.Store.QuestVotes" Multiplicity="*" />
-    <End Role="Quest" Type="AvalonModel.Store.Quests" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Quest">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="QuestVote">
-        <PropertyRef Name="QuestVoteQuest_QuestVote_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -193,6 +193,30 @@
       </Principal>
       <Dependent Role="PartyVote">
         <PropertyRef Name="ActivePlayer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestVoteQuest_QuestVote">
+    <End Role="QuestVote" Type="AvalonModel.Store.QuestVotes" Multiplicity="1" />
+    <End Role="QuestVoteQuest" Type="AvalonModel.Store.QuestVoteQuest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestVote">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestVoteQuest">
+        <PropertyRef Name="QuestVotes_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestVoteQuest_Quest">
+    <End Role="QuestVoteQuest" Type="AvalonModel.Store.QuestVoteQuest" Multiplicity="*" />
+    <End Role="Quest" Type="AvalonModel.Store.Quests" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Quest">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestVoteQuest">
+        <PropertyRef Name="QuestVoteQuest_QuestVote_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -295,7 +319,7 @@
         </EntityType>
         <Association Name="QuestVoteQuest">
           <End Type="AvalonModel.QuestVote" Role="QuestVote" Multiplicity="*" />
-          <End Type="AvalonModel.Quest" Role="Quest" Multiplicity="1" />
+          <End Type="AvalonModel.Quest" Role="Quest" Multiplicity="*" />
         </Association>
         <EntityType Name="PartyVote">
           <Key>
@@ -308,7 +332,7 @@
         </EntityType>
         <Association Name="QuestPartyVote">
           <End Type="AvalonModel.Quest" Role="Quest" Multiplicity="1" />
-          <End Type="AvalonModel.PartyVote" Role="PartyVote" Multiplicity="0..1" />
+          <End Type="AvalonModel.PartyVote" Role="PartyVote" Multiplicity="*" />
         </Association>
         <EntityType Name="Player">
           <Key>
@@ -354,7 +378,7 @@
         </Association>
         <Association Name="ActivePlayerPartyVote">
           <End Type="AvalonModel.ActivePlayer" Role="ActivePlayer" Multiplicity="1" />
-          <End Type="AvalonModel.PartyVote" Role="PartyVote" Multiplicity="0..1" />
+          <End Type="AvalonModel.PartyVote" Role="PartyVote" Multiplicity="*" />
         </Association>
         <Association Name="PartyActivePlayer">
           <End Type="AvalonModel.Party" Role="Party" Multiplicity="*" />
@@ -444,12 +468,12 @@
         <ScalarProperty Name="PartyId" ColumnName="PartyId" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="QuestVoteQuest" TypeName="AvalonModel.QuestVoteQuest" StoreEntitySet="QuestVotes">
+    <AssociationSetMapping Name="QuestVoteQuest" TypeName="AvalonModel.QuestVoteQuest" StoreEntitySet="QuestVoteQuest">
+      <EndProperty Name="QuestVote">
+        <ScalarProperty Name="Id" ColumnName="QuestVotes_Id" />
+      </EndProperty>
       <EndProperty Name="Quest">
         <ScalarProperty Name="Id" ColumnName="QuestVoteQuest_QuestVote_Id" />
-      </EndProperty>
-      <EndProperty Name="QuestVote">
-        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="QuestPartyVote" TypeName="AvalonModel.QuestPartyVote" StoreEntitySet="PartyVotes">

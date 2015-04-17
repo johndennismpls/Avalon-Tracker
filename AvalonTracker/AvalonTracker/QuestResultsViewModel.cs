@@ -38,7 +38,8 @@ namespace AvalonTracker
         public void SelectedCardChanged(object sender, EventArgs e)
         {
             var selectedIndex = ((sender as ListBox).SelectedIndex as int?).Value;
-            QuestCards[selectedIndex].TogglePassFail();
+            if(selectedIndex != -1)
+                QuestCards[selectedIndex].TogglePassFail();
         }
 
 

@@ -93,10 +93,8 @@ namespace AvalonTracker
         {
             if (ThePlayer != null)
             {
-                var key = new Tuple<Player, int, int, int>(ThePlayer, Services.GameService.CurrentGameId,
-                    Services.GameService.CurrentQuest, Services.GameService.VoteTrack);
-                Services.GameService.VoteTable[key] = !Services.GameService.VoteTable[key];
-                VoteString = Services.GameService.VoteTable[key] ? "APPROVE!" : "REJECT!";               
+                Services.GameService.VoteTable[ThePlayer] = !Services.GameService.VoteTable[ThePlayer];
+                VoteString = Services.GameService.VoteTable[ThePlayer] ? "APPROVE!" : "REJECT!";               
             }
         }
 

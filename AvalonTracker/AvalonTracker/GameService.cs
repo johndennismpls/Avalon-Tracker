@@ -121,6 +121,12 @@ namespace AvalonTracker
                 context.SaveChanges();
             }
 
+            VoteTable.Clear();
+            foreach (var player in Services.GameService.ActivePlayers)
+            {
+                VoteTable.Add(player, false);
+            }
+
             Services.GameService.PartyChooser = Services.GameService.ActivePlayers.First();
             Services.GameService.AdvanceToNextQuest();
             Services.GameService.CurrentGameState = GameState.PartySelection;
@@ -128,6 +134,7 @@ namespace AvalonTracker
 
         public void StartPartySelection()
         {
+
 
         }
 
@@ -166,12 +173,62 @@ namespace AvalonTracker
                             party.ActivePlayers.Add(ap);
                         }
                     }
+
                 }
                 context.Parties.Add(party);
+
+                var partyVoteMax = (from g in context.Games
+                                select (int?)g.Id).Max().GetValueOrDefault();
+
+                foreach (var entry in VoteTable)
+                {
+                    var partyVote = new PartyVote();
+                    partyVote.Id = partyVoteMax + 1;
+                    partyVote.Quest = quest;
+                    partyVote.ApproveFlag = entry.Value;
+
+                    //TODO fix: since we use player instead of active player
+                    foreach (var ap in apc)
+                    {
+                        foreach (var p in this.ActivePlayers)
+                        {
+                            if (p.Id == ap.Player.Id)
+                            {
+                                partyVote.ActivePlayer = ap;
+                            }
+                        }
+                    }
+                    context.PartyVotes.Add(partyVote);
+                }
 
                 context.SaveChanges();
             }
         }
+
+
+        public void SumbitQuestResults(IList<bool> results)
+        {
+
+            using (var context = new AvalonModelContainer())
+            {
+                var qvmax = (from qv in context.QuestVotes
+                                    select (int?)qv.Id).Max().GetValueOrDefault();
+
+                foreach (var result in results)
+                {
+                    var questVote = new QuestVote
+                    {
+                        PassFlag = result, 
+                        Id = qvmax++
+                    };
+                    context.QuestVotes.Add(questVote);
+                }
+                context.SaveChanges();
+            }
+
+            CurrentGameState = GameState.PartySelection;
+        }
+
 
         public ObservableCollection<Player> ActiveParty = new ObservableCollection<Player>();
 
@@ -243,16 +300,7 @@ namespace AvalonTracker
         {
             CurrentQuest += 1;
         }
-    
-        //Game, Quest, Results
-        private Dictionary<Tuple<int, int>, IList<bool>> questResults = new Dictionary<Tuple<int, int>, IList<bool>>();
 
-        public void SumbitQuestResults(IList<bool> results)
-        {
-            questResults.Add(new Tuple<int, int>(0, CurrentQuest), results);
-
-            CurrentGameState = GameState.PartySelection;
-        }
 
         private GameState _currentGameState;
         public GameState CurrentGameState
@@ -265,8 +313,7 @@ namespace AvalonTracker
             }
         }
 
-        //Player, Game, Quest, VotingRound
-        public Dictionary<Tuple<Player, int, int, int>, bool> VoteTable = new Dictionary<Tuple<Player, int, int, int>, bool>();
+        public Dictionary<Player, bool> VoteTable = new Dictionary<Player, bool>();
 
         //private List<CharacterClass> characterClasses = new List<CharacterClass>()
         //{

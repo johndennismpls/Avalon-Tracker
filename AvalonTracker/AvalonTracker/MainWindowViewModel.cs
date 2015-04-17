@@ -150,7 +150,7 @@ namespace AvalonTracker
             int approveVotes = 0;
             foreach (var player in Services.GameService.ActivePlayers)
             {
-                if (Services.GameService.VoteTable[new Tuple<Player, int, int, int>(player, Services.GameService.CurrentGameId, Services.GameService.CurrentQuest, Services.GameService.VoteTrack)])
+                if (Services.GameService.VoteTable[player])
                     approveVotes++;
 
             }
@@ -172,11 +172,6 @@ namespace AvalonTracker
 
         private void PartySelectionHelper(object obj)
         {
-            foreach (var player in Services.GameService.ActivePlayers)
-            {
-                Services.GameService.VoteTable.Add(new Tuple<Player, int, int, int>(player, 0, Services.GameService.CurrentQuest, Services.GameService.VoteTrack), false);
-            }
-
             Services.GameService.CurrentGameState = GameState.PartyVoting;
             OnPropertyChanged("NextStateBtnText");
         }

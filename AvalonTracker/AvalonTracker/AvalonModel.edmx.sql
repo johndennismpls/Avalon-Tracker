@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2015 00:15:48
+-- Date Created: 04/17/2015 00:59:40
 -- Generated from EDMX file: E:\NewAvalonTracker\Avalon-Tracker\AvalonTracker\AvalonTracker\AvalonModel.edmx
 -- --------------------------------------------------
 
@@ -20,8 +20,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PartyQuest]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Parties] DROP CONSTRAINT [FK_PartyQuest];
 GO
-IF OBJECT_ID(N'[dbo].[FK_QuestVoteQuest]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[QuestVotes] DROP CONSTRAINT [FK_QuestVoteQuest];
+IF OBJECT_ID(N'[dbo].[FK_QuestVoteQuest_QuestVote]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[QuestVoteQuest] DROP CONSTRAINT [FK_QuestVoteQuest_QuestVote];
+GO
+IF OBJECT_ID(N'[dbo].[FK_QuestVoteQuest_Quest]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[QuestVoteQuest] DROP CONSTRAINT [FK_QuestVoteQuest_Quest];
 GO
 IF OBJECT_ID(N'[dbo].[FK_QuestPartyVote]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PartyVotes] DROP CONSTRAINT [FK_QuestPartyVote];
@@ -73,6 +76,9 @@ GO
 IF OBJECT_ID(N'[dbo].[Games]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Games];
 GO
+IF OBJECT_ID(N'[dbo].[QuestVoteQuest]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[QuestVoteQuest];
+GO
 IF OBJECT_ID(N'[dbo].[PartyActivePlayer]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PartyActivePlayer];
 GO
@@ -100,8 +106,7 @@ GO
 -- Creating table 'QuestVotes'
 CREATE TABLE [dbo].[QuestVotes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [PassFlag] bit  NOT NULL,
-    [QuestVoteQuest_QuestVote_Id] int  NOT NULL
+    [PassFlag] bit  NOT NULL
 );
 GO
 
@@ -145,6 +150,13 @@ GO
 -- Creating table 'Games'
 CREATE TABLE [dbo].[Games] (
     [Id] int IDENTITY(1,1) NOT NULL
+);
+GO
+
+-- Creating table 'QuestVoteQuest'
+CREATE TABLE [dbo].[QuestVoteQuest] (
+    [QuestVotes_Id] int  NOT NULL,
+    [QuestVoteQuest_QuestVote_Id] int  NOT NULL
 );
 GO
 
@@ -213,6 +225,12 @@ ADD CONSTRAINT [PK_Games]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [QuestVotes_Id], [QuestVoteQuest_QuestVote_Id] in table 'QuestVoteQuest'
+ALTER TABLE [dbo].[QuestVoteQuest]
+ADD CONSTRAINT [PK_QuestVoteQuest]
+    PRIMARY KEY CLUSTERED ([QuestVotes_Id], [QuestVoteQuest_QuestVote_Id] ASC);
+GO
+
 -- Creating primary key on [PartyActivePlayer_ActivePlayer_PartyId], [ActivePlayers_Id] in table 'PartyActivePlayer'
 ALTER TABLE [dbo].[PartyActivePlayer]
 ADD CONSTRAINT [PK_PartyActivePlayer]
@@ -237,17 +255,26 @@ ON [dbo].[Parties]
     ([Quest_Id]);
 GO
 
--- Creating foreign key on [QuestVoteQuest_QuestVote_Id] in table 'QuestVotes'
-ALTER TABLE [dbo].[QuestVotes]
-ADD CONSTRAINT [FK_QuestVoteQuest]
+-- Creating foreign key on [QuestVotes_Id] in table 'QuestVoteQuest'
+ALTER TABLE [dbo].[QuestVoteQuest]
+ADD CONSTRAINT [FK_QuestVoteQuest_QuestVote]
+    FOREIGN KEY ([QuestVotes_Id])
+    REFERENCES [dbo].[QuestVotes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [QuestVoteQuest_QuestVote_Id] in table 'QuestVoteQuest'
+ALTER TABLE [dbo].[QuestVoteQuest]
+ADD CONSTRAINT [FK_QuestVoteQuest_Quest]
     FOREIGN KEY ([QuestVoteQuest_QuestVote_Id])
     REFERENCES [dbo].[Quests]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--- Creating non-clustered index for FOREIGN KEY 'FK_QuestVoteQuest'
-CREATE INDEX [IX_FK_QuestVoteQuest]
-ON [dbo].[QuestVotes]
+-- Creating non-clustered index for FOREIGN KEY 'FK_QuestVoteQuest_Quest'
+CREATE INDEX [IX_FK_QuestVoteQuest_Quest]
+ON [dbo].[QuestVoteQuest]
     ([QuestVoteQuest_QuestVote_Id]);
 GO
 
